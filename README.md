@@ -1,6 +1,6 @@
 # Eclipse demo projects with µOS++/CMSIS++ code
 
-## Demos
+## Projects
 
 ### f4discovery-blinky-mos
 
@@ -14,7 +14,7 @@ TO BE ADDED.
 
 ## How to use
 
-To use this demos, you need to:
+To use any of these projects, you need to:
 
 * clone the GitHub project locally
 ```
