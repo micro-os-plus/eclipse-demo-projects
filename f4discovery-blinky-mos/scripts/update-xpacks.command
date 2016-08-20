@@ -11,4 +11,4 @@ fi
 
 parent="$(dirname ${script})"
 
-bash "$parent/update-xpacks.sh" --dev-tree "/Users/ilg/My Files/MacBookPro Projects/uOS/micro-os-plus-iii-tree.git"""
+bash "$parent/update-xpacks.sh" --dev-tree "/Users/ilg/My Files/MacBookPro Projects/uOS/micro-os-plus-iii-tree.git"
