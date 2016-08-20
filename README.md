@@ -18,7 +18,7 @@ To use any of these projects, you need to:
 
 * clone the GitHub project locally
 ```
-$ git clone https://github.com/micro-os-plus/eclipse-sample-projects.git eclipse-demo-projects.git
+$ git clone https://github.com/micro-os-plus/eclipse-demo-projects.git eclipse-demo-projects.git
 ```
 * in Eclipse, import the desired project into your workspace, without copying
 * build
