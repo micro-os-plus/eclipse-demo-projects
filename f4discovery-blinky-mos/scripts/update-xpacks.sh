@@ -6,13 +6,6 @@ xpacks_repo_folder="$HOME/.xpacks"
 
 use_development_tree=""
 
-script=$0
-if [[ "${script}" != /* ]]
-then
-  # Make relative path absolute.
-  script=$(pwd)/$0
-fi
-
 while [ $# -gt 0 ]
 do
   case "$1" in
@@ -25,7 +18,7 @@ do
     --help)
       echo "Update xpacks."
       echo "Usage:"
-      echo "    bash $0 [--dev-tree absolute-path] [--help]"
+      echo "    bash $(basename $0) [--dev-tree absolute-path] [--help]"
       echo
       exit 1
       ;;
@@ -36,6 +29,13 @@ do
       ;;
   esac
 done
+
+script=$0
+if [[ "${script}" != /* ]]
+then
+  # Make relative path absolute.
+  script=$(pwd)/$0
+fi
 
 project_name="$(basename $(dirname $(dirname ${script})))"
 echo "* Generating xpacks for '${project_name}' *"
@@ -52,8 +52,8 @@ then
 fi
 
 mkdir -p "${xpack_dest_folder}"
-echo "This folder was automatically generated." >"${xpack_dest_folder}/GENERATED_DO_NOT_EDIT.txt"
-echo "All files are set read-only and cannot be edited." >>"${xpack_dest_folder}/GENERATED_DO_NOT_EDIT.txt"
+echo "This folder was automatically generated." >"${xpack_dest_folder}/GENERATED_NOT_EDITABLE.txt"
+echo "All files are set read-only and cannot be edited." >>"${xpack_dest_folder}/GENERATED_NOT_EDITABLE.txt"
 
 # arm-cmsis
 
