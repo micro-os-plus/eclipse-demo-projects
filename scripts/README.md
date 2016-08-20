@@ -1,6 +1,6 @@
 # Helper scripts
 
-The following scripts were created on macOS, and the ones suffixed with `.command` are specific to macOS; the `.sh` scripts should also be fine on GNU/Linux, and possibly on MSYS2 on Windows, but it is not guaranteed.
+These scripts were created on macOS, and the ones suffixed with `.command` are specific to macOS; the `.sh` scripts should also be fine on GNU/Linux, and possibly on Windows MSYS2, but it is not guaranteed.
 
 For native Windows, separate PowerShell scripts are required. If you manage to create them, please improve your karma and contribute them back to the community.
 
