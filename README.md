@@ -1,4 +1,4 @@
-# Eclipse projects to build  µOS++/CMSIS++ demo applications
+# Eclipse demo projects with µOS++/CMSIS++ code
 
 ## Demos
 
