@@ -2,7 +2,7 @@
 
 These scripts were created on macOS, and the ones suffixed with `.command` are specific to macOS; the `.sh` scripts should also be fine on GNU/Linux, and possibly on Windows MSYS2, but it is not guaranteed.
 
-For native Windows, separate PowerShell scripts are required. If you manage to create them, please improve your karma and contribute them back to the community.
+For native Windows, separate PowerShell scripts are required. If you manage to create them, please consider improving your karma and contribute them back to the community.
 
 ## update-xpacks-repo.sh
 
@@ -16,4 +16,4 @@ If, for one reason or another, it is necessary to stick with one older commit fo
 
 ## update-xpacks-repo.command
 
-Wrapper for macOS, using the development tree as source; execute it by double clicking in Finder.
+Wrapper for macOS; execute it by double clicking in Finder.

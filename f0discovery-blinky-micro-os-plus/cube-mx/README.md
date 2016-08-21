@@ -80,7 +80,7 @@ For this, the CubeMX configuration must include the option to copy the sources l
 ProjectManager.LibraryCopy=0
 ```
 
-With this setting, the HAL & CMSIS code ends up in the `Drivers` folder.
+With this setting, the HAL & CMSIS code ends up in the large `Drivers` folder (more than 500 files).
 
 However, for consistency reasons, the Eclipse project will not use the files in this folder, but will copy the required files in the generated `stm32f0-cmsis-cube` and `stm32f0-hal-cube` folders.
 
@@ -90,4 +90,4 @@ One of the major drawbacks of the actual ARM CMSIS design is not only that it ba
 
 CMSIS++ corrected this, by separating the startup code from the vectors; the implementation is split into two files, one system specific `startup.c` and one device specific `vectors_DEVICE.c`.
 
-With the vectors file not provided by the vendors, the creation script must do one more special trick to dynamically generate this file. The solution is to parse an existing assembly startup file and extract the list of handlers, then recreate the .c file. The code to do this magic is available in the `generate-helper.sh` script (don't ask what the regular expressions do).
+With the vectors file not provided by the vendors, the creation script must do one more special trick and dynamically generate this file. The solution is to parse an existing assembly startup file and extract the list of handlers, then recreate the .c file. The code to do this magic is available in the `generate-helper.sh` script (just don't ask what those many regular expressions do!).

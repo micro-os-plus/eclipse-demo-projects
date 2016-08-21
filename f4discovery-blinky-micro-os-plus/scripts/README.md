@@ -14,4 +14,4 @@ This script requires the helper script from parent `scripts/generate-helper.sh`.
 
 ## generate.command
 
-Wrapper for macOS; execute it by double clicking in Finder.
+Wrapper for macOS, using the development tree as source; update the absolute address of the development tree is cloned and execute it by double clicking in Finder.

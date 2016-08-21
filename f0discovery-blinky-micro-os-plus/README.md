@@ -8,6 +8,6 @@ It demonstrates:
 - how to integrate the CubeMX initialisation code;
 - how to integrate CubeMX HAL & CMSIS code, including generating of the required `vectors_stm32*.c` file.
 
-This project does not demonstrate any µOS++ features, the only RTOS feature used is the system clock `sleep_for()`, to delay execution for a number of ticks.
+This project **does not** demonstrate any µOS++ features, the only RTOS feature used is the system clock `sleep_for()`, to delay execution for a number of ticks.
 
 Until the XCDL utility will be available, the `generated` folder is created with the `scripts/generate.sh` script.
