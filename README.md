@@ -2,15 +2,17 @@
 
 ## Projects
 
-### f4discovery-blinky-mos
+### f4discovery-blinky-micro-os-plus
 
 4 LEDS blinky project using the STM32F4DISCOVERY board (Cortex-M4, 1MB flash, 128KB RAM) and µOS++.
 
-### f0discovery-blinky-mos
+All code supplied by xPacks.
+
+### f0discovery-blinky-micro-os-plus
 
 2 LEDS blinky project using the STM32F0DISCOVERY board (Cortex-M0, 64KB flash, 8 KB RAM).
 
-TO BE ADDED.
+Code supplied by xPacks and CubeMX.
 
 ## How to use
 

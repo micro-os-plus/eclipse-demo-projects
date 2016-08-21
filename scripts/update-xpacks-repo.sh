@@ -3,11 +3,11 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Until the XCDL utility will be functional, use this is a Bash script
-# to update the xpacks repository.
+# to update the xPacks repository.
 # At the first run, the `xpack` branch is cloned into the local folder.
 # Subsequent runs pull the latest commit from the current branch.
 
-# As with other repositories, the default location for the xpacks
+# As with other repositories, the default location for the xPacks
 # repository is a hidden folder in the user home.
 xpacks_repo_folder="$HOME/.xpacks"
 
@@ -31,7 +31,7 @@ do_update_micro_os_plus() {
   do_git_update "${xpacks_repo_folder}/ilg/$1.git" "https://github.com/micro-os-plus/$1.git"
 }
 
-# Update a single third party xpack.
+# Update a single third party xPack.
 # $1 = GitHub project name.
 do_update_xpacks() {
   do_git_update "${xpacks_repo_folder}/ilg/$1.git" "https://github.com/xpacks/$1.git"
@@ -43,15 +43,15 @@ then
   mkdir -p "${xpacks_repo_folder}"
 fi
 
-# Update µOS++ xpacks
+# Update µOS++ xPacks
 do_update_micro_os_plus "cmsis-plus"
 do_update_micro_os_plus "micro-os-plus-iii"
 do_update_micro_os_plus "posix-arch"
 
-# Update third party xpacks
+# Update third party xPacks
 do_update_xpacks "arm-cmsis"
 do_update_xpacks "stm32f4-cmsis"
 do_update_xpacks "stm32f4-hal"
-# do_update_xpacks "stm32f7-cmsis"
-# do_update_xpacks "stm32f7-hal"
+do_update_xpacks "stm32f7-cmsis"
+do_update_xpacks "stm32f7-hal"
 do_update_xpacks "freertos"

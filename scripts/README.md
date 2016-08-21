@@ -6,7 +6,7 @@ For native Windows, separate PowerShell scripts are required. If you manage to c
 
 ## update-xpacks-repo.sh
 
-The xpacks are stored as separate folders in `$HOME/.xpacks`. For now, the format is the original Git, but separate versions will be added as the XCDL tool will be available.
+The xPacks are stored as separate folders in `$HOME/.xpacks`. For now, the format is the original Git, but separate versions will be added as the XCDL tool will be available.
 
 During the first run, the `xpack` branch is cloned into the local folder.
 
