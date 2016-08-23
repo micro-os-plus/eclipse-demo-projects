@@ -385,10 +385,10 @@ do_add_stm32_hal_xpack() {
   do_select_pack_folder "ilg/stm32${family}-hal.git" "ilg/stm/stm32${family}-hal-xpack"
 
   do_create_include
-  cp -r "${pack_folder}/Drivers/STM32${family-uc}xx_HAL_Driver/Inc"/* "${dest_folder}/include"
+  cp -r "${pack_folder}/Drivers/STM32${family_uc}xx_HAL_Driver/Inc"/* "${dest_folder}/include"
 
   do_create_src
-  cp -r "${pack_folder}/Drivers/STM32${family-uc}xx_HAL_Driver/Src"/* "${dest_folder}/src"
+  cp -r "${pack_folder}/Drivers/STM32${family_uc}xx_HAL_Driver/Src"/* "${dest_folder}/src"
 }
 
 # -----------------------------------------------------------------------------
