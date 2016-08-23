@@ -402,10 +402,10 @@ do_add_stm32_hal_cube() {
   do_set_cube_folder
 
   do_create_include
-  cp -r "${cube_folder}/Drivers/STM32${family-uc}xx_HAL_Driver/Inc"/* "${dest_folder}/include"
+  cp -r "${cube_folder}/Drivers/STM32${family_uc}xx_HAL_Driver/Inc"/* "${dest_folder}/include"
 
   do_create_src
-  cp -r "${cube_folder}/Drivers/STM32${family-uc}xx_HAL_Driver/Src"/* "${dest_folder}/src"
+  cp -r "${cube_folder}/Drivers/STM32${family_uc}xx_HAL_Driver/Src"/* "${dest_folder}/src"
 }
 
 # -----------------------------------------------------------------------------
