@@ -39,7 +39,6 @@
 
 #define OS_INTEGER_RTOS_MAIN_STACK_SIZE_BYTES               (2000)
 
-
 #if defined(OS_USE_TRACE_SEGGER_RTT)
 #define OS_EXCLUDE_RTOS_IDLE_SLEEP (1)
 #endif
@@ -50,9 +49,11 @@
 
 // ----------------------------------------------------------------------------
 
-#if defined(_DEBUG)
+#if 0
 
+// Available trace options.
 #define OS_TRACE_RTOS_CLOCKS
+#define OS_TRACE_RTOS_LISTS_CLOCKS
 #define OS_TRACE_RTOS_CONDVAR
 #define OS_TRACE_RTOS_EVFLAGS
 #define OS_TRACE_RTOS_MEMPOOL
@@ -61,29 +62,22 @@
 #define OS_TRACE_RTOS_RTC_TICK
 #define OS_TRACE_RTOS_SCHEDULER
 #define OS_TRACE_RTOS_SEMAPHORE
+#define OS_TRACE_RTOS_SYSCLOCK_TICK
 #define OS_TRACE_RTOS_THREAD
+#define OS_TRACE_RTOS_THREAD_CONTEXT
 #define OS_TRACE_RTOS_THREAD_FLAGS
 #define OS_TRACE_RTOS_TIMER
+
+#define OS_TRACE_RTOS_LISTS
 
 #define OS_TRACE_LIBC_MALLOC
 #define OS_TRACE_LIBC_ATEXIT
 
-#if !defined(__ARM_EABI__) || defined(OS_USE_TRACE_SEGGER_RTT)
-#define OS_TRACE_RTOS_SYSCLOCK_TICK
-#define OS_TRACE_RTOS_LISTS
-#define OS_TRACE_RTOS_LISTS_CLOCKS
-#define OS_TRACE_RTOS_THREAD_CONTEXT
 #endif
 
-#else
+
 #define OS_TRACE_RTOS_THREAD
-#define OS_TRACE_RTOS_MQUEUE
-#define OS_TRACE_RTOS_MEMPOOL
-#define OS_TRACE_LIBC_MALLOC
-#endif
-
 #define OS_TRACE_RTOS_RTC_TICK
-//#define OS_TRACE_RTOS_SYSCLOCK_TICK
 
 // ----------------------------------------------------------------------------
 

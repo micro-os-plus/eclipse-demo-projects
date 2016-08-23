@@ -52,8 +52,8 @@
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="../generated/arm-cmsis-xpack/include"/>
 									<listOptionValue builtIn="false" value="../generated/micro-os-plus-xpack/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-cmsis-cube/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-hal-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-cmsis-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-hal-cube/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs.1142089828" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -70,8 +70,8 @@
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="../generated/arm-cmsis-xpack/include"/>
 									<listOptionValue builtIn="false" value="../generated/micro-os-plus-xpack/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-cmsis-cube/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-hal-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-cmsis-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-hal-cube/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.1517276222" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="DEBUG"/>
@@ -88,8 +88,8 @@
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="../generated/arm-cmsis-xpack/include"/>
 									<listOptionValue builtIn="false" value="../generated/micro-os-plus-xpack/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-cmsis-cube/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-hal-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-cmsis-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-hal-cube/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions.290748881" name="Do not use exceptions (-fno-exceptions)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions" useByScannerDiscovery="true" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti.1320373466" name="Do not use RTTI (-fno-rtti)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti" useByScannerDiscovery="true" value="true" valueType="boolean"/>
@@ -151,8 +151,8 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cube-mx/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus-xpack/src"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32f0-cmsis-cube/src"/>
-						<entry excluding="stm32f0xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32f0-hal-cube/src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32-cmsis-cube/src"/>
+						<entry excluding="stm32f0xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32-hal-cube/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>
@@ -230,8 +230,8 @@
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="../generated/arm-cmsis-xpack/include"/>
 									<listOptionValue builtIn="false" value="../generated/micro-os-plus-xpack/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-cmsis-cube/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-hal-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-cmsis-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-hal-cube/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs.1142519107" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.assembler.defs" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F051x8"/>
@@ -246,8 +246,8 @@
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="../generated/arm-cmsis-xpack/include"/>
 									<listOptionValue builtIn="false" value="../generated/micro-os-plus-xpack/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-cmsis-cube/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-hal-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-cmsis-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-hal-cube/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs.1103395198" name="Defined symbols (-D)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.defs" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="STM32F051x8"/>
@@ -262,8 +262,8 @@
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="../generated/arm-cmsis-xpack/include"/>
 									<listOptionValue builtIn="false" value="../generated/micro-os-plus-xpack/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-cmsis-cube/include"/>
-									<listOptionValue builtIn="false" value="../generated/stm32f0-hal-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-cmsis-cube/include"/>
+									<listOptionValue builtIn="false" value="../generated/stm32-hal-cube/include"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions.1430857122" name="Do not use exceptions (-fno-exceptions)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.noexceptions" useByScannerDiscovery="true" value="true" valueType="boolean"/>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti.781328369" name="Do not use RTTI (-fno-rtti)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.nortti" useByScannerDiscovery="true" value="true" valueType="boolean"/>
@@ -323,8 +323,8 @@
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cube-mx/Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus-xpack/src"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32f0-cmsis-cube/src"/>
-						<entry excluding="stm32f0xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32f0-hal-cube/src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32-cmsis-cube/src"/>
+						<entry excluding="stm32f0xx_hal_msp_template.c" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32-hal-cube/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
 					</sourceEntries>
 				</configuration>

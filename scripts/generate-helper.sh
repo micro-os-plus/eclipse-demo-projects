@@ -398,7 +398,7 @@ do_add_stm32_hal_cube() {
   local family=$1
   local family_uc=$(echo ${family} | tr '[:lower:]' '[:upper:]')
 
-  do_prepare_dest "stm32${family}-hal-cube"
+  do_prepare_dest "stm32-hal-cube"
   do_set_cube_folder
 
   do_create_include
@@ -416,7 +416,7 @@ do_add_stm32_cmsis_cube() {
   local family=${device:5:2}
   local family_uc=$(echo ${family} | tr '[:lower:]' '[:upper:]')
 
-  do_prepare_dest "stm32${family}-cmsis-cube"
+  do_prepare_dest "stm32-cmsis-cube"
   do_set_cube_folder
 
   do_create_include
