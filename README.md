@@ -22,5 +22,7 @@ To use any of these projects, you need to:
 ```
 $ git clone https://github.com/micro-os-plus/eclipse-demo-projects.git eclipse-demo-projects.git
 ```
-* in Eclipse, import the desired project into your workspace, without copying
+* in Eclipse, import the projects into your workspace, without copying
 * build
+* test the f4discovery-blinky-micro-os-plus on QEMU, it should blink the LEDs
+* in a terminal window, start `scripts/update-xpacks-repo.sh` (on Mac you can double click the `update-xpacks-repo.command` in Finder); this will allow to later run the individual `generate.sh` scripts.
