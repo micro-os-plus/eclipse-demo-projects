@@ -22,6 +22,9 @@ do_process_args $@
 # Print greeting.
 do_greet
 
+# Test if xPacks repo is present and load if not.
+do_load_repo
+
 # Recreate the destination folder.
 do_remove_dest
 do_create_dest

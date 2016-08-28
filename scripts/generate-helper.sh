@@ -34,8 +34,17 @@ do_process_args() {
 
 do_greet() {
   project_name="$(basename $(dirname $(dirname ${script})))"
-  echo "* Generating xpacks for '${project_name}' *"
+  echo "* Generating xPacks for '${project_name}' *"
   echo
+}
+
+do_load_repo() {
+  if [ ! -d "${xpacks_repo_folder}" ]
+  then
+    update_script="$(dirname $(dirname $(dirname ${script})))/scripts/update-xpacks-repo.sh"
+
+    bash "${update_script}"
+  fi
 }
 
 do_remove_dest() {
