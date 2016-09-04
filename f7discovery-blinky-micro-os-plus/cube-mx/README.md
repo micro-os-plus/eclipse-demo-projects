@@ -42,7 +42,7 @@ cube_mx_init(void);
   /* USER CODE END 3 */
 ```
 
-### stm32f4xx_it.c
+### stm32f7xx_it.c
 
 - add an external definition to µOS++ system time handler
 ```

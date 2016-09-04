@@ -38,10 +38,10 @@ do_add_cmsis_plus_xpack
 # Add the 'micro-os-plus-iii' xPack.
 do_add_micro_os_plus_iii_xpack
 
-# Add the 'stm32f4-cmsis' xPack.
+# Add the 'stm32-cmsis' xPack.
 do_add_stm32_cmsis_xpack "stm32f746xx"
 
-# Add the 'stm32f4-hal' xpack.
+# Add the 'stm32-hal' xpack.
 do_add_stm32_hal_xpack "f7"
 
 # Change file modes to read/only.

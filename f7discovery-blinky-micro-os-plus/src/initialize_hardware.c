@@ -46,7 +46,7 @@
 //
 // Note2: The external memory controllers are not enabled. If needed, you
 // have to define DATA_IN_ExtSRAM or DATA_IN_ExtSDRAM and to configure
-// the memory banks in system/src/cmsis/system_stm32f4xx.c to match your needs.
+// the memory banks in system/src/cmsis/system_stm32f7xx.c to match your needs.
 
 // ----------------------------------------------------------------------------
 // Forward declarations.
