@@ -1,1 +1,4 @@
-/Release/
+.DS_Store
+.settings
+Debug
+Release
