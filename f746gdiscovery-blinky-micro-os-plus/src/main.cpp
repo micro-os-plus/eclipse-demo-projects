@@ -69,7 +69,7 @@ namespace
 
 // ----- LED definitions ------------------------------------------------------
 
-
+// The 32F746GDISCOVERY has a single LED, PI1, active high.
 #define BLINK_PORT_NUMBER         (8)
 #define BLINK_PIN_NUMBER          (1)
 #define BLINK_ACTIVE_LOW          (false)

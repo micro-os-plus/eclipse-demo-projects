@@ -8,6 +8,12 @@
 
 All code supplied by xPacks.
 
+### f746gdiscovery-blinky-micro-os-plus
+
+1 LED blinky project using the 32F746GDISCOVERY board (Cortex-M7, 1MB flash, 340KB RAM) and µOS++.
+
+All code supplied by xPacks.
+
 ### f0discovery-blinky-micro-os-plus
 
 2 LEDS blinky project using the STM32F0DISCOVERY board (Cortex-M0, 64KB flash, 8 KB RAM).

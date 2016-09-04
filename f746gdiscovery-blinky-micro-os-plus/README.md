@@ -1,6 +1,6 @@
-# Blinky demo for STM32F7DISCOVERY, using µOS++
+# Blinky demo for STM32F746GDISCOVERY, using µOS++
 
-This demo program blinks the LED on the STM32F7DISCOVERY (the blink code
+This demo program blinks the LED on the STM32F746GDISCOVERY (the blink code
 is copied from F4DISCOVERY, which has 4 LEDs, for this board it is a bit of
 a overkill).
 
