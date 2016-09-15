@@ -52,7 +52,7 @@ namespace os
      * @headerfile os.h <cmsis-plus/rtos/os.h>
      * @ingroup cmsis-plus-rtos-evflag
      */
-    class event_flags : public internal::object_named
+    class event_flags : public internal::object_named_system
     {
     public:
 
@@ -75,25 +75,18 @@ namespace os
         /**
          * @brief Construct an event flags attributes object instance.
          * @par Parameters
-         *  None
+         *  None.
          */
         constexpr
         attributes ();
 
-        /**
-         * @cond ignore
-         */
-
+        // The rule of five.
         attributes (const attributes&) = default;
         attributes (attributes&&) = default;
         attributes&
         operator= (const attributes&) = default;
         attributes&
         operator= (attributes&&) = default;
-
-        /**
-         * @endcond
-         */
 
         /**
          * @brief Destruct the event flags attributes object instance.
@@ -148,6 +141,7 @@ namespace os
        * @cond ignore
        */
 
+      // The rule of five.
       event_flags (const event_flags&) = delete;
       event_flags (event_flags&&) = delete;
       event_flags&
@@ -286,7 +280,7 @@ namespace os
       /**
        * @brief Check if there are threads waiting.
        * @par Parameters
-       *  None
+       *  None.
        * @retval true There are threads waiting.
        * @retval false There are no threads waiting.
        */

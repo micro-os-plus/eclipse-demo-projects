@@ -88,9 +88,11 @@
 
 #include <cmsis-plus/rtos/os-decls.h>
 
+#include <cmsis-plus/rtos/os-sched.h>
+
+// Includes a reference to critical sections.
 #include <cmsis-plus/rtos/os-memory.h>
 
-#include <cmsis-plus/rtos/os-sched.h>
 #include <cmsis-plus/rtos/os-thread.h>
 #include <cmsis-plus/rtos/os-clocks.h>
 #include <cmsis-plus/rtos/os-timer.h>
@@ -101,6 +103,10 @@
 #include <cmsis-plus/rtos/os-mqueue.h>
 #include <cmsis-plus/rtos/os-evflags.h>
 
+#include <cmsis-plus/rtos/os-hooks.h>
+
+// More or less at the end, when all other definitions are available.
+#include <cmsis-plus/rtos/os-inlines.h>
 #include <cmsis-plus/rtos/port/os-inlines.h>
 
 namespace os
@@ -131,6 +137,48 @@ namespace os
       children_threads (thread* th);
 
     } /* namespace scheduler */
+
+    // ------------------------------------------------------------------------
+
+    namespace interrupts
+    {
+#if defined(OS_HAS_INTERRUPTS_STACK) || defined(__DOXYGEN__)
+
+      /**
+       * @brief Get the interrupts stack
+       * @ingroup cmsis-plus-rtos-core
+       * @par Parameters
+       *  None.
+       * @return Pointer to stack object instance.
+       */
+      class thread::stack*
+      stack (void);
+
+#else
+#endif /* defined(OS_HAS_INTERRUPTS_STACK) */
+
+      ;
+    // Avoid formatter bug.
+    } /* namespace interrupts */
+
+    // ------------------------------------------------------------------------
+    /**
+     * @brief  Create an object that is owned by a `shared_ptr` and is
+     *  allocated using the RTOS system allocator.
+     * @ingroup cmsis-plus-rtos-memres
+     * @param  args  Arguments for the _T_ object's constructor.
+     * @return A shared_ptr that owns the newly created object.
+     * @throw * An exception may be thrown from `allocate()` or
+     *          from the constructor of _T_.
+     */
+    template<typename T, typename ... Args>
+      inline std::shared_ptr<T>
+      make_shared (Args&&... args)
+      {
+        return std::allocate_shared<T> (memory::allocator<T> (),
+                                        std::forward<Args>(args)...);
+      }
+
   } /* namespace rtos */
 } /* namespace os */
 

@@ -25,25 +25,21 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <cstdlib>
-
 #include <cmsis-plus/rtos/os.h>
-#include <cmsis-plus/rtos/port/os-inlines.h>
-
-#include <cmsis-plus/diag/trace.h>
-
-#if defined(__ARM_EABI__)
-#include "cmsis_device.h"
-#endif
+#include <cmsis-plus/estd/memory_resource>
 
 // ----------------------------------------------------------------------------
 
 using namespace os;
-using namespace os::rtos;
+
+// ----------------------------------------------------------------------------
 
 /**
  * @cond ignore
  */
+
+extern "C" void
+os_goodbye (void);
 
 namespace
 {
@@ -76,6 +72,7 @@ namespace
 
     int code = os_main (main_args.argc, main_args.argv);
     trace::printf ("%s() exit = %d\n", __func__, code);
+
     // Exit will run the atexit() and destructors, then
     // terminate gracefully.
     std::exit (code);
@@ -90,14 +87,23 @@ namespace
  */
 
 // ----------------------------------------------------------------------------
+extern rtos::thread* os_main_thread;
+
+// Intentionally a raw pointer, to prevent destruction.
+rtos::thread* os_main_thread;
+
+#if defined(OS_EXCLUDE_DYNAMIC_MEMORY_ALLOCATIONS)
+
 // Necessarily static, on Cortex-M the reset stack will be used
 // as MSP for the interrupts, so the current stack must be freed
 // and os_main() shall run on its own stack.
-using main_thread = thread_static<OS_INTEGER_RTOS_MAIN_STACK_SIZE_BYTES>;
-static std::aligned_storage<sizeof(main_thread), alignof(main_thread)>::type os_main_thread;
+using main_thread = rtos::thread_inclusive<OS_INTEGER_RTOS_MAIN_STACK_SIZE_BYTES>;
+static std::aligned_storage<sizeof(main_thread), alignof(main_thread)>::type os_main_thread_;
+
+#endif /* defined(OS_EXCLUDE_DYNAMIC_MEMORY_ALLOCATIONS) */
 
 /**
- * @brief Default implementation of main().
+ * @brief Default implementation of `main()`.
  */
 int
 #if !defined(__APPLE__)
@@ -105,17 +111,13 @@ __attribute__((weak))
 #endif
 main (int argc, char* argv[])
 {
+  using namespace os::rtos;
+
   trace::printf ("\nµOS++ v" OS_STRING_RTOS_IMPL_VERSION
   " / CMSIS++ RTOS API v" OS_STRING_RTOS_API_VERSION ".\n");
   trace::printf ("Copyright (c) 2016 Liviu Ionescu.\n");
 
   port::scheduler::greeting ();
-
-  // At this stage the system clock should have already been configured
-  // at high speed by __initialise_hardware().
-#if defined(__ARM_EABI__)
-  trace::printf ("System clock: %u Hz.\n", SystemCoreClock);
-#endif
 
   trace::printf ("Scheduler frequency: %u ticks/sec.\n",
                  rtos::clock_systick::frequency_hz);
@@ -141,12 +143,28 @@ main (int argc, char* argv[])
   main_args.argc = argc;
   main_args.argv = argv;
 
+#if defined(OS_EXCLUDE_DYNAMIC_MEMORY_ALLOCATIONS)
+
   // Running the constructor manually has the additional advantage of
   // not registering any destructor, and for main this is important,
   // since the destructors are executed on its context, and it cannot
   // destruct itself.
-  new (&os_main_thread) main_thread
-    { "main", reinterpret_cast<thread::func_t> (_main_trampoline), nullptr };
+  new (&os_main_thread_) main_thread
+    { "main", reinterpret_cast<thread::func_t> (_main_trampoline), nullptr};
+
+  os_main_thread = &os_main_thread_;
+
+#else
+
+  thread::attributes attr = thread::initializer;
+  attr.th_stack_size_bytes = OS_INTEGER_RTOS_MAIN_STACK_SIZE_BYTES;
+  os_main_thread = new thread (
+      "main", reinterpret_cast<thread::func_t> (_main_trampoline), nullptr,
+      attr);
+
+#endif /* defined(OS_EXCLUDE_DYNAMIC_MEMORY_ALLOCATIONS) */
+
+  os_startup_create_thread_idle ();
 
   // Execution will proceed to first registered thread, possibly
   // "idle", which will immediately lower its priority,
@@ -156,4 +174,42 @@ main (int argc, char* argv[])
   /* NOTREACHED */
 }
 
+void
+#if !defined(__APPLE__)
+__attribute__((weak))
+#endif
+os_terminate_goodbye (void)
+{
+#if defined(TRACE)
+
+  trace::printf ("\n");
+
+#if !defined(OS_EXCLUDE_DYNAMIC_MEMORY_ALLOCATIONS)
+
+  // Application memory.
+  estd::pmr::get_default_resource ()->trace_print_statistics ();
+
+#if defined(OS_INTEGER_RTOS_DYNAMIC_MEMORY_SIZE_BYTES)
+  rtos::memory::get_default_resource ()->trace_print_statistics ();
+#endif /* defined(OS_INTEGER_RTOS_DYNAMIC_MEMORY_SIZE_BYTES) */
+
+#endif /* !defined(OS_EXCLUDE_DYNAMIC_MEMORY_ALLOCATIONS) */
+
+  class rtos::thread::stack& st = os_main_thread->stack ();
+
+  trace::printf ("Main thread stack: %u/%u bytes used\n",
+                 st.size () - st.available (), st.size ());
+
+#if defined(OS_HAS_INTERRUPTS_STACK)
+  trace::printf (
+      "Interrupts stack: %u/%u bytes used\n",
+      rtos::interrupts::stack ()->size ()
+      - rtos::interrupts::stack ()->available (),
+      rtos::interrupts::stack ()->size ());
+#endif /* defined(OS_HAS_INTERRUPTS_STACK) */
+
+  trace::printf ("\nHasta la Vista!\n");
+
+#endif /* defined(TRACE) */
+}
 // ----------------------------------------------------------------------------

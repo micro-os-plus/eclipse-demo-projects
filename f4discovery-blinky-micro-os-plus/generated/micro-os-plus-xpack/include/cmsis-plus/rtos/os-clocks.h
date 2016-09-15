@@ -117,8 +117,17 @@ namespace os
        */
       clock (const char* name);
 
+      /**
+       * @endcond
+       */
+
     public:
 
+      /**
+       * @cond ignore
+       */
+
+      // The rule of five.
       clock (const clock&) = delete;
       clock (clock&&) = delete;
       clock&
@@ -151,9 +160,9 @@ namespace os
       /**
        * @brief Start the clock.
        * @par Parameters
-       *  None
+       *  None.
        * @par Returns
-       *  Nothing
+       *  Nothing.
        */
       virtual void
       start (void) = 0;
@@ -161,7 +170,7 @@ namespace os
       /**
        * @brief Tell the current time, possibly adjusted for epoch.
        * @par Parameters
-       *  None
+       *  None.
        * @return The clock current timestamp (time units from startup
        * plus the epoch offset).
        */
@@ -171,7 +180,7 @@ namespace os
       /**
        * @brief Tell the current time since startup.
        * @par Parameters
-       *  None
+       *  None.
        * @return The clock current timestamp (time units from startup).
        */
       timestamp_t
@@ -216,7 +225,7 @@ namespace os
       /**
        * @brief Get adjustment offset (placeholder).
        * @par Parameters
-       *  None
+       *  None.
        * @return 0 for steady clocks.
        */
       virtual offset_t
@@ -319,13 +328,23 @@ namespace os
        */
 
       /**
-       * @brief Construct a clock object instance (protected, used in derived classes)
+       * @brief Construct a clock object instance (protected, used in
+       *  derived classes).
        * @param [in] name Pointer to clock name.
        */
       adjustable_clock (const char* name);
 
+      /**
+       * @endcond
+       */
+
     public:
 
+      /**
+       * @cond ignore
+       */
+
+      // The rule of five.
       adjustable_clock (const adjustable_clock&) = delete;
       adjustable_clock (adjustable_clock&&) = delete;
       adjustable_clock&
@@ -357,7 +376,7 @@ namespace os
       /**
        * @brief Tell the current time adjusted for epoch.
        * @par Parameters
-       *  None
+       *  None.
        * @return The clock current timestamp (time units from startup
        * plus the epoch offset).
        */
@@ -377,7 +396,7 @@ namespace os
       /**
        * @brief Get adjustment offset.
        * @par Parameters
-       *  None
+       *  None.
        * @return Integer value representing the offset to epoch.
        */
       virtual offset_t
@@ -464,12 +483,15 @@ namespace os
       /**
        * @cond ignore
        */
+
+      // The rule of five.
       clock_systick (const clock_systick&) = delete;
       clock_systick (clock_systick&&) = delete;
       clock_systick&
       operator= (const clock_systick&) = delete;
       clock_systick&
       operator= (clock_systick&&) = delete;
+
       /**
        * @endcond
        */
@@ -591,12 +613,15 @@ namespace os
       /**
        * @cond ignore
        */
+
+      // The rule of five.
       clock_rtc (const clock_rtc&) = delete;
       clock_rtc (clock_rtc&&) = delete;
       clock_rtc&
       operator= (const clock_rtc&) = delete;
       clock_rtc&
       operator= (clock_rtc&&) = delete;
+
       /**
        * @endcond
        */
@@ -620,7 +645,7 @@ namespace os
       /**
        * @brief Initialise and make the RTC tick.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok   The real time clock was started.
        * @retval ENOTRECOVERABLE Could not start real time clock.
        */
@@ -688,12 +713,15 @@ namespace os
       /**
        * @cond ignore
        */
+
+      // The rule of five.
       clock_highres (const clock_highres&) = delete;
       clock_highres (clock_highres&&) = delete;
       clock_highres&
       operator= (const clock_highres&) = delete;
       clock_highres&
       operator= (clock_highres&&) = delete;
+
       /**
        * @endcond
        */
@@ -720,7 +748,7 @@ namespace os
       /**
        * @brief Tell the current time.
        * @par Parameters
-       *  None
+       *  None.
        * @return The number of SysTick input clocks since startup.
        */
       virtual timestamp_t

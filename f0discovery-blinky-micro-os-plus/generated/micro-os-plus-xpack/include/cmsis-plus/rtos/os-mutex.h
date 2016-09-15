@@ -55,7 +55,7 @@ namespace os
      * @headerfile os.h <cmsis-plus/rtos/os.h>
      * @ingroup cmsis-plus-rtos-mutex
      */
-    class mutex : public internal::object_named
+    class mutex : public internal::object_named_system
     {
     public:
 
@@ -221,32 +221,33 @@ namespace os
         /**
          * @brief Construct a mutex attributes object instance.
          * @par Parameters
-         *  None
+         *  None.
          */
         constexpr
         attributes ();
+
+      protected:
 
         /**
          * @cond ignore
          */
 
-      protected:
-
         constexpr
         attributes (type_t type);
 
+        /**
+         * @endcond
+         */
+
       public:
 
+        // The rule of five.
         attributes (const attributes&) = default;
         attributes (attributes&&) = default;
         attributes&
         operator= (const attributes&) = default;
         attributes&
         operator= (attributes&&) = default;
-
-        /**
-         * @endcond
-         */
 
         /**
          * @brief Destruct the mutex attributes object instance.
@@ -324,25 +325,18 @@ namespace os
         /**
          * @brief Construct a recursive mutex attributes object instance.
          * @par Parameters
-         *  None
+         *  None.
          */
         constexpr
         attributes_recursive ();
 
-        /**
-         * @cond ignore
-         */
-
+        // The rule of five.
         attributes_recursive (const attributes_recursive&) = default;
         attributes_recursive (attributes_recursive&&) = default;
         attributes_recursive&
         operator= (const attributes_recursive&) = default;
         attributes_recursive&
         operator= (attributes_recursive&&) = default;
-
-        /**
-         * @endcond
-         */
 
         /**
          * @brief Destruct the recursive mutex attributes object instance.
@@ -383,6 +377,7 @@ namespace os
        * @cond ignore
        */
 
+      // The rule of five.
       mutex (const mutex&) = delete;
       mutex (mutex&&) = delete;
       mutex&
@@ -430,7 +425,7 @@ namespace os
       /**
        * @brief Lock/acquire the mutex.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The mutex was locked.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
        * @retval ENOTRECOVERABLE The state protected by the mutex is
@@ -454,7 +449,7 @@ namespace os
       /**
        * @brief Try to lock/acquire the mutex.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The mutex was locked.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
        * @retval ENOTRECOVERABLE The state protected by the mutex is
@@ -504,7 +499,7 @@ namespace os
       /**
        * @brief Unlock/release the mutex.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The mutex was unlocked.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routine;
        *  the mutex type is `mutex::type::errorcheck` or
@@ -519,7 +514,7 @@ namespace os
       /**
        * @brief Get the priority ceiling of a mutex.
        * @par Parameters
-       *  None
+       *  None.
        * @return The priority ceiling.
        */
       thread::priority_t
@@ -554,7 +549,7 @@ namespace os
       /**
        * @brief Mark mutex as consistent.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The mutex was marked as consistent.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
        * @retval EINVAL The mutex object referenced by mutex is not robust
@@ -566,7 +561,7 @@ namespace os
       /**
        * @brief Get the thread that owns the mutex.
        * @par Parameters
-       *  None
+       *  None.
        * @return Pointer to thread or `nullptr` if not owned.
        */
       thread*
@@ -596,7 +591,7 @@ namespace os
       /**
        * @brief Reset the mutex.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The mutex was reset.
        */
       result_t
@@ -622,7 +617,7 @@ namespace os
       /**
        * @brief Internal initialisation.
        * @par Parameters
-       *  None
+       *  None.
        */
       void
       internal_init_ (void);
@@ -630,7 +625,7 @@ namespace os
       /**
        * @brief Internal function used to lock the mutex.
        * @par Parameters
-       *  None
+       *  None.
        * @retval true The mutex was locked.
        * @retval false The mutex was not locked.
        */
@@ -740,6 +735,7 @@ namespace os
        * @cond ignore
        */
 
+      // The rule of five.
       mutex_recursive (const mutex_recursive&) = delete;
       mutex_recursive (mutex_recursive&&) = delete;
       mutex_recursive&
@@ -801,6 +797,10 @@ namespace os
       ;
     }
 
+    /**
+     * @cond ignore
+     */
+
     constexpr
     mutex::attributes::attributes (type_t type) :
         mx_type (type)
@@ -808,8 +808,11 @@ namespace os
       ;
     }
 
-    // ========================================================================
+    /**
+     * @endcond
+     */
 
+    // ========================================================================
     constexpr
     mutex::attributes_recursive::attributes_recursive () :
         attributes

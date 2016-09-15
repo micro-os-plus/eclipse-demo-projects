@@ -50,7 +50,6 @@
 #include <cmsis_device.h>
 
 #include <cmsis-plus/diag/trace.h>
-#include <cmsis-plus/iso/malloc.h>
 
 namespace os
 {
@@ -69,7 +68,7 @@ namespace os
         {
           trace::printf ("µOS++ Cortex-M");
 #if defined(__ARM_ARCH_7EM__)
-          trace::printf ("4");
+          trace::putchar ('0'+__CORTEX_M); // M4/M7
 #if defined(__VFP_FP__) && !defined(__SOFTFP__)
           trace::printf (" FP");
 #endif
@@ -79,6 +78,10 @@ namespace os
           trace::printf ("0/0+");
 #endif
           trace::printf (" scheduler; preemptive.\n");
+
+          // At this stage the system clock should have already been configured
+          // at high speed by __initialise_hardware().
+          trace::printf ("System clock: %u Hz.\n", SystemCoreClock);
         }
 
         inline port::scheduler::state_t

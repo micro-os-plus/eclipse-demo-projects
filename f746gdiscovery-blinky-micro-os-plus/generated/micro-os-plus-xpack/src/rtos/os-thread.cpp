@@ -25,15 +25,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <cassert>
-#include <new>
-#include <memory>
-
 #include <cmsis-plus/rtos/os.h>
-#include <cmsis-plus/rtos/port/os-inlines.h>
-
-#include <cmsis-plus/diag/trace.h>
-#include <cmsis-plus/rtos/internal/os-flags.h>
+#include <memory>
 
 // ----------------------------------------------------------------------------
 
@@ -238,7 +231,7 @@ namespace os
     }
 
     thread::thread (const char* name) :
-        object_named
+        object_named_system
           { name }
     {
 #if defined(OS_TRACE_RTOS_THREAD)
@@ -342,12 +335,14 @@ namespace os
      */
     thread::thread (const char* name, func_t function, func_args_t args,
                     const attributes& attr, const allocator_type& allocator) :
-        object_named
+        object_named_system
           { name }
     {
 #if defined(OS_TRACE_RTOS_THREAD)
       trace::printf ("%s() @%p %s\n", __func__, this, this->name ());
 #endif
+
+      allocator_ = &allocator;
 
       if (attr.th_stack_address != nullptr
           && attr.th_stack_size_bytes > stack::min_size ())
@@ -357,7 +352,6 @@ namespace os
       else
         {
           using allocator_type = memory::allocator<stack::allocation_element_t>;
-          allocator_ = &allocator;
 
           if (attr.th_stack_size_bytes > stack::min_size ())
             {
@@ -1013,8 +1007,9 @@ namespace os
           assert(stack ().check_top_magic ());
 
 #if defined(OS_TRACE_RTOS_THREAD)
-          trace::printf ("%s() @%p %s %u/%u stack bytes unused\n", __func__,
-                         this, name (), stack ().available (),
+          trace::printf ("%s() @%p %s stack: %u/%u bytes used\n", __func__,
+                         this, name (),
+                         stack ().size () - stack ().available (),
                          stack ().size ());
 #endif
 
@@ -1536,6 +1531,5 @@ namespace os
     } /* namespace this_thread */
 
   // --------------------------------------------------------------------------
-
   } /* namespace rtos */
 } /* namespace os */

@@ -25,12 +25,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <cassert>
-
 #include <cmsis-plus/rtos/os.h>
-#include <cmsis-plus/rtos/port/os-inlines.h>
-
-#include <cmsis-plus/diag/trace.h>
 
 // ----------------------------------------------------------------------------
 
@@ -172,7 +167,7 @@ namespace os
      */
     timer::timer (const char* name, func_t function, func_args_t args,
                   const attributes& attr) :
-        object_named
+        object_named_system
           { name }
     {
 #if defined(OS_TRACE_RTOS_TIMER)

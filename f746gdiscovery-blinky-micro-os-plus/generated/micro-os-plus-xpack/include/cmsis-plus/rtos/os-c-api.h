@@ -34,7 +34,7 @@
  * This file is part of the CMSIS++ proposal, intended as a CMSIS
  * replacement for C++ applications, and provides a C API.
  *
- * The code is inspired by ARM CMSIS cmsis_os.h file, v1.02,
+ * The code was originally inspired by ARM CMSIS cmsis_os.h file, v1.02,
  * and tries to remain functionally close to the CMSIS specifications.
  */
 
@@ -45,6 +45,8 @@
 
 // Include the CMSIS++ C API structures declarations.
 #include <cmsis-plus/rtos/os-c-decls.h>
+
+#include <cmsis-plus/rtos/os-hooks.h>
 
 #include <stdint.h>
 #include <stddef.h>
@@ -64,7 +66,7 @@ extern "C"
 
   // --------------------------------------------------------------------------
   /**
-   * @name Return codes
+   * @name Return Codes
    * @{
    */
 
@@ -85,7 +87,7 @@ extern "C"
 
   // --------------------------------------------------------------------------
   /**
-   * @name Main thread function
+   * @name Main Thread Function
    * @{
    */
 
@@ -116,14 +118,14 @@ extern "C"
 
   // --------------------------------------------------------------------------
   /**
-   * @name Scheduler functions
+   * @name Scheduler Functions
    * @{
    */
 
   /**
    * @brief Initialise the RTOS scheduler.
    * @par Parameters
-   *  None
+   *  None.
    * @retval os_ok The scheduler was initialised.
    * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
    */
@@ -133,7 +135,7 @@ extern "C"
   /**
    * @brief Start the RTOS scheduler.
    * @par Parameters
-   *  None
+   *  None.
    * @par Returns
    *  Nothing.
    */
@@ -144,7 +146,7 @@ extern "C"
   /**
    * @brief Check if the scheduler was started.
    * @par Parameters
-   *  None
+   *  None.
    * @retval true The scheduler was started.
    * @retval false The scheduler was not started.
    */
@@ -154,7 +156,7 @@ extern "C"
   /**
    * @brief Lock the scheduler.
    * @par Parameters
-   *  None
+   *  None.
    * @return The previous state of the scheduler lock.
    */
   os_sched_state_t
@@ -163,7 +165,7 @@ extern "C"
   /**
    * @brief Unlock the scheduler.
    * @par Parameters
-   *  None
+   *  None.
    * @return The previous state of the scheduler lock.
    */
   os_sched_state_t
@@ -180,7 +182,7 @@ extern "C"
   /**
    * @brief Check if the scheduler is locked.
    * @par Parameters
-   *  None
+   *  None.
    * @retval true The scheduler is locked.
    * @retval false The scheduler is switching threads (not locked).
    */
@@ -190,7 +192,7 @@ extern "C"
   /**
    * @brief Check if the scheduler is in preemptive mode.
    * @par Parameters
-   *  None
+   *  None.
    * @retval true The scheduler is in preemptive mode.
    * @retval false The scheduler is not in preemptive mode.
    */
@@ -211,7 +213,7 @@ extern "C"
 
   // --------------------------------------------------------------------------
   /**
-   * @name Scheduler statistics functions
+   * @name Scheduler Statistics Functions
    * @{
    */
 
@@ -219,7 +221,8 @@ extern "C"
 
   /**
    * @brief Get the total number of context switches.
-   * @return Integer with the total number of context switches since scheduler start.
+   * @return Integer with the total number of context switches since
+   *  scheduler start.
    */
   os_statistics_counter_t
   os_sched_stat_get_context_switches (void);
@@ -244,14 +247,14 @@ extern "C"
 
   // --------------------------------------------------------------------------
   /**
-   * @name Interrupts functions
+   * @name Interrupts Functions
    * @{
    */
 
   /**
    * @brief Check if the CPU is in handler mode.
    * @par Parameters
-   *  None
+   *  None.
    * @retval true Execution is in an exception handler context.
    * @retval false Execution is in a thread context.
    */
@@ -261,7 +264,7 @@ extern "C"
   /**
    * @brief Enter an interrupts critical section.
    * @par Parameters
-   *  None
+   *  None.
    * @return The previous value of the interrupts priority register.
    */
   os_irq_state_t
@@ -281,7 +284,7 @@ extern "C"
   /**
    * @brief Enter an interrupts uncritical section.
    * @par Parameters
-   *  None
+   *  None.
    * @return The previous value of the interrupts priority register.
    */
   os_irq_state_t
@@ -295,6 +298,19 @@ extern "C"
    */
   void
   os_irq_uncritical_exit (os_irq_state_t state);
+
+#if defined(OS_HAS_INTERRUPTS_STACK) || defined(__DOXYGEN__)
+
+  /**
+   * @brief Get the interrupts stack.
+   * @par Parameters
+   *  None.
+   * @return A pointer to the interrupts stack object instance.
+   */
+  os_thread_stack_t*
+  os_irq_get_stack (void);
+
+#endif
 
   /**
    * @}
@@ -311,14 +327,14 @@ extern "C"
    */
 
   /**
-   * @name Current thread functions
+   * @name Current Thread Functions
    * @{
    */
 
   /**
    * @brief Get the current running thread.
    * @par Parameters
-   *  None
+   *  None.
    * @return Pointer to the current running thread object instance.
    */
   os_thread_t*
@@ -327,7 +343,7 @@ extern "C"
   /**
    * @brief Suspend the current running thread to wait for an event.
    * @par Parameters
-   *  None
+   *  None.
    * @par Returns
    *  Nothing.
    */
@@ -432,7 +448,7 @@ extern "C"
 
   // --------------------------------------------------------------------------
   /**
-   * @name Thread functions
+   * @name Thread Attribute Functions
    * @{
    */
 
@@ -446,28 +462,68 @@ extern "C"
   os_thread_attr_init (os_thread_attr_t* attr);
 
   /**
-   * @brief Create a thread object instance.
-   * @param [in] thread Pointer to thread object instance.
-   * @param [in] name Thread name (may be NULL).
-   * @param [in] func Pointer to thread function.
-   * @param [in] args Pointer to thread function arguments (may be NULL).
-   * @param [in] attr Pointer to thread attributes (may be NULL)
-   * @par Returns
-   *  Nothing.
+   * @}
    */
-  void
-  os_thread_create (os_thread_t* thread, const char* name,
-                    os_thread_func_t func, const os_thread_func_args_t args,
-                    const os_thread_attr_t* attr);
 
   /**
-   * @brief Destroy the thread.
+   * @name Thread Creation Functions
+   * @{
+   */
+
+  /**
+   * @brief Construct a statically allocated thread object instance.
+   * @param [in] thread Pointer to thread object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] func Pointer to thread function.
+   * @param [in] args Pointer to thread function arguments (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL)
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_thread_construct (os_thread_t* thread, const char* name,
+                       os_thread_func_t func, const os_thread_func_args_t args,
+                       const os_thread_attr_t* attr);
+
+  /**
+   * @brief Destruct the statically allocated thread object instance.
    * @param [in] thread Pointer to thread object instance.
    * @par Returns
    *  Nothing.
    */
   void
-  os_thread_destroy (os_thread_t* thread);
+  os_thread_destruct (os_thread_t* thread);
+
+  /**
+   * @brief Allocate a thread object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] func Pointer to thread function.
+   * @param [in] args Pointer to thread function arguments (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL)
+   * @return Pointer to new thread object instance.
+   */
+  os_thread_t*
+  os_thread_new (const char* name, os_thread_func_t func,
+                 const os_thread_func_args_t args,
+                 const os_thread_attr_t* attr);
+
+  /**
+   * @brief Destruct the thread object instance and deallocate it.
+   * @param [in] thread Pointer to dynamically allocated thread object instance.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_thread_delete (os_thread_t* thread);
+
+  /**
+   * @}
+   */
+
+  /**
+   * @name Thread Functions
+   * @{
+   */
 
   /**
    * @brief Get the thread name.
@@ -560,14 +616,27 @@ extern "C"
 
   // --------------------------------------------------------------------------
   /**
-   * @name Thread stack functions
+   * @name Compatibility Macros
+   * @{
+   */
+
+#define os_thread_create os_thread_construct
+#define os_thread_destroy os_thread_destruct
+
+  /**
+   * @}
+   */
+
+  // --------------------------------------------------------------------------
+  /**
+   * @name Thread Stack Functions
    * @{
    */
 
   /**
    * @brief Get the default stack size.
    * @par Parameters
-   *  None
+   *  None.
    * @return  The default stack size in bytes.
    */
   size_t
@@ -584,7 +653,7 @@ extern "C"
   /**
    * @brief Get the min stack size.
    * @par Parameters
-   *  None
+   *  None.
    * @return  The min stack size in bytes.
    */
   size_t
@@ -654,7 +723,7 @@ extern "C"
 
   // --------------------------------------------------------------------------
   /**
-   * @name Thread statistics functions
+   * @name Thread Statistics Functions
    * @{
    */
 
@@ -688,7 +757,7 @@ extern "C"
 
   // --------------------------------------------------------------------------
   /**
-   * @name Thread children iterator functions
+   * @name Thread Children Iterator Functions
    * @{
    */
 
@@ -741,7 +810,7 @@ extern "C"
    */
 
   /**
-   * @name Clock functions
+   * @name Clock Functions
    * @{
    */
 
@@ -848,7 +917,7 @@ extern "C"
   /**
    * @brief Tell the current time since startup.
    * @par Parameters
-   *  None
+   *  None.
    * @return The number of SysTick input clocks since startup.
    */
   os_clock_timestamp_t
@@ -936,7 +1005,7 @@ extern "C"
    */
 
   /**
-   * @name Timer functions
+   * @name Timer Attribute Functions
    * @{
    */
 
@@ -966,28 +1035,67 @@ extern "C"
   os_timer_attr_get_periodic (void);
 
   /**
-   * @brief Create a timer object instance.
-   * @param [in] timer Pointer to timer object instance.
-   * @param [in] name Pointer to name.
-   * @param [in] function Pointer to timer function.
-   * @param [in] args Pointer to timer function arguments.
-   * @param [in] attr Pointer to attributes.
-   * @par Returns
-   *  Nothing.
+   * @}
    */
-  void
-  os_timer_create (os_timer_t* timer, const char* name,
-                   os_timer_func_t function, os_timer_func_args_t args,
-                   const os_timer_attr_t* attr);
 
   /**
-   * @brief Destroy the timer.
+   * @name Timer Creation Functions
+   * @{
+   */
+
+  /**
+   * @brief Construct a statically allocated timer object instance.
+   * @param [in] timer Pointer to timer object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] function Pointer to timer function.
+   * @param [in] args Pointer to timer function arguments (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_timer_construct (os_timer_t* timer, const char* name,
+                      os_timer_func_t function, os_timer_func_args_t args,
+                      const os_timer_attr_t* attr);
+
+  /**
+   * @brief Destruct the statically allocated timer object instance.
    * @param [in] timer Pointer to timer object instance.
    * @par Returns
    *  Nothing.
    */
   void
-  os_timer_destroy (os_timer_t* timer);
+  os_timer_destruct (os_timer_t* timer);
+
+  /**
+   * @brief Allocate a timer object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] function Pointer to timer function.
+   * @param [in] args Pointer to timer function arguments (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @return Pointer to new timer object instance.
+   */
+  os_timer_t*
+  os_timer_new (const char* name, os_timer_func_t function,
+                os_timer_func_args_t args, const os_timer_attr_t* attr);
+
+  /**
+   * @brief Destruct the timer object instance and deallocate it.
+   * @param [in] timer Pointer to dynamically allocated timer object instance.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_timer_delete (os_timer_t* timer);
+
+  /**
+   * @}
+   */
+
+  /**
+   * @name Timer Functions
+   * @{
+   */
 
   /**
    * @brief Get the timer name.
@@ -1023,6 +1131,19 @@ extern "C"
    * @}
    */
 
+  // --------------------------------------------------------------------------
+  /**
+   * @name Compatibility Macros
+   * @{
+   */
+
+#define os_timer_create os_timer_construct
+#define os_timer_destroy os_timer_destruct
+
+  /**
+   * @}
+   */
+
   /**
    * @}
    */
@@ -1034,7 +1155,7 @@ extern "C"
    */
 
   /**
-   * @name Mutex functions
+   * @name Mutex Attributes Functions
    * @{
    */
 
@@ -1064,37 +1185,82 @@ extern "C"
   os_mutex_attr_get_recursive (void);
 
   /**
-   * @brief Create a mutex object instance.
-   * @param [in] mutex Pointer to mutex object instance.
-   * @param [in] name Pointer to name.
-   * @param [in] attr Pointer to attributes.
-   * @par Returns
-   *  Nothing.
+   * @}
    */
-  void
-  os_mutex_create (os_mutex_t* mutex, const char* name,
-                   const os_mutex_attr_t* attr);
 
   /**
-   * @brief Create a recursive mutex object instance.
-   * @param [in] mutex Pointer to mutex object instance.
-   * @param [in] name Pointer to name.
-   * @param [in] attr Pointer to attributes.
-   * @par Returns
-   *  Nothing.
+   * @name Mutex Creation Functions
+   * @{
    */
-  void
-  os_mutex_recursive_create (os_mutex_t* mutex, const char* name,
-                             const os_mutex_attr_t* attr);
 
   /**
-   * @brief Destroy the mutex object instance.
-   * @param [in] mutex Pointer to mutex object instance.
+   * @brief Construct a statically allocated mutex object instance.
+   * @param [in] mutex Pointer to mutex object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
    * @par Returns
    *  Nothing.
    */
   void
-  os_mutex_destroy (os_mutex_t* mutex);
+  os_mutex_construct (os_mutex_t* mutex, const char* name,
+                      const os_mutex_attr_t* attr);
+
+  /**
+   * @brief Construct a statically allocated recursive mutex object instance.
+   * @param [in] mutex Pointer to mutex object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_mutex_recursive_construct (os_mutex_t* mutex, const char* name,
+                                const os_mutex_attr_t* attr);
+
+  /**
+   * @brief Destruct the statically allocated mutex object instance.
+   * @param [in] mutex Pointer to mutex object instance storage.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_mutex_destruct (os_mutex_t* mutex);
+
+  /**
+   * @brief Allocate a mutex object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @return Pointer to new mutex object instance.
+   */
+  os_mutex_t*
+  os_mutex_new (const char* name, const os_mutex_attr_t* attr);
+
+  /**
+   * @brief Allocated a recursive mutex object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @return Pointer to new recursive mutex object instance.
+   */
+  os_mutex_t*
+  os_mutex_recursive_new (const char* name, const os_mutex_attr_t* attr);
+
+  /**
+   * @brief Destruct the mutex object instance and deallocate it.
+   * @param [in] mutex Pointer to dynamically allocated mutex object instance.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_mutex_delete (os_mutex_t* mutex);
+
+  /**
+   * @}
+   */
+
+  /**
+   * @name Mutex Functions
+   * @{
+   */
 
   /**
    * @brief Get the mutex name.
@@ -1266,6 +1432,20 @@ extern "C"
    * @}
    */
 
+  // --------------------------------------------------------------------------
+  /**
+   * @name Compatibility Macros
+   * @{
+   */
+
+#define os_mutex_create os_mutex_construct
+#define os_mutex_recursive_create os_mutex_recursive_construct
+#define os_mutex_destroy os_mutex_destruct
+
+  /**
+   * @}
+   */
+
   /**
    * @}
    */
@@ -1277,7 +1457,7 @@ extern "C"
    */
 
   /**
-   * @name Condition variable functions
+   * @name Condition Variable Attributes Functions
    * @{
    */
 
@@ -1291,10 +1471,20 @@ extern "C"
   os_condvar_attr_init (os_condvar_attr_t* attr);
 
   /**
-   * @brief Create a condition variable object instance.
-   * @param [in] condvar Pointer to condition variable object instance.
-   * @param [in] name Pointer to name.
-   * @param [in] attr Pointer to attributes.
+   * @}
+   */
+
+  /**
+   * @name Condition Variable Creation Functions
+   * @{
+   */
+
+  /**
+   * @brief Construct a statically allocated condition variable
+   *  object instance.
+   * @param [in] condvar Pointer to condition variable object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
    * @par Errors
    *  The constructor shall fail if:
    *  - `EAGAIN` - The system lacked the necessary resources
@@ -1307,17 +1497,54 @@ extern "C"
    *  Nothing.
    */
   void
-  os_condvar_create (os_condvar_t* condvar, const char* name,
-                     const os_condvar_attr_t* attr);
+  os_condvar_construct (os_condvar_t* condvar, const char* name,
+                        const os_condvar_attr_t* attr);
 
   /**
-   * @brief Destroy the condition variable object instance.
+   * @brief Destruct the statically allocated condition variable
+   *  object instance.
    * @param [in] condvar Pointer to condition variable object instance.
    * @par Returns
    *  Nothing.
    */
   void
-  os_condvar_destroy (os_condvar_t* condvar);
+  os_condvar_destruct (os_condvar_t* condvar);
+
+  /**
+   * @brief Allocate a condition variable object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @par Errors
+   *  The constructor shall fail if:
+   *  - `EAGAIN` - The system lacked the necessary resources
+   *  (other than memory) to create the condition variable.
+   *  - `ENOMEM` - Insufficient memory exists to initialise
+   *  the condition variable.
+   * @par
+   *  The constructor shall not fail with an error code of `EINTR`.
+   * @return Pointer to new condition variable object instance.
+   */
+  os_condvar_t*
+  os_condvar_new (const char* name, const os_condvar_attr_t* attr);
+
+  /**
+   * @brief Destruct the condition variable object instance and deallocate it.
+   * @param [in] condvar Pointer to dynamically allocated condition
+   *  variable object instance.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_condvar_delete (os_condvar_t* condvar);
+
+  /**
+   * @}
+   */
+
+  /**
+   * @name Condition Variable Functions
+   * @{
+   */
 
   /**
    * @brief Get the condition variable name.
@@ -1398,6 +1625,19 @@ extern "C"
    * @}
    */
 
+  // --------------------------------------------------------------------------
+  /**
+   * @name Compatibility Macros
+   * @{
+   */
+
+#define os_condvar_create os_condvar_construct
+#define os_condvar_destroy os_condvar_destruct
+
+  /**
+   * @}
+   */
+
   /**
    * @}
    */
@@ -1409,7 +1649,7 @@ extern "C"
    */
 
   /**
-   * @name Semaphore functions
+   * @name Semaphore Attributes Functions
    * @{
    */
 
@@ -1452,51 +1692,110 @@ extern "C"
   os_semaphore_attr_get_binary (void);
 
   /**
-   * @brief Create a semaphore object instance.
-   * @param [in] semaphore Pointer to semaphore object instance.
-   * @param [in] name Pointer to name.
-   * @param [in] attr Pointer to attributes.
+   * @}
+   */
+
+  /**
+   * @name Semaphore Creation Functions
+   * @{
+   */
+
+  /**
+   * @brief Construct a statically allocated semaphore object instance.
+   * @param [in] semaphore Pointer to semaphore object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
    * @par Returns
    *  Nothing.
    */
   void
-  os_semaphore_create (os_semaphore_t* semaphore, const char* name,
-                       const os_semaphore_attr_t* attr);
+  os_semaphore_construct (os_semaphore_t* semaphore, const char* name,
+                          const os_semaphore_attr_t* attr);
 
   /**
-   * @brief Create a binary semaphore object instance.
-   * @param [in] semaphore Pointer to semaphore object instance.
-   * @param [in] name Pointer to name.
+   * @brief Construct a statically allocated binary semaphore object instance.
+   * @param [in] semaphore Pointer to semaphore object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
    * @param [in] initial_value Initial count value.
    * @par Returns
    *  Nothing.
    */
   void
-  os_semaphore_binary_create (os_semaphore_t* semaphore, const char* name,
-                              const os_semaphore_count_t initial_value);
+  os_semaphore_binary_construct (os_semaphore_t* semaphore, const char* name,
+                                 const os_semaphore_count_t initial_value);
 
   /**
-   * @brief Create a counting semaphore object instance.
-   * @param [in] semaphore Pointer to semaphore object instance.
-   * @param [in] name Pointer to name.
+   * @brief Construct a statically allocated counting semaphore
+   *  object instance.
+   * @param [in] semaphore Pointer to semaphore object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
    * @param [in] max_value Maximum count value.
    * @param [in] initial_value Initial count value.
    * @par Returns
    *  Nothing.
    */
   void
-  os_semaphore_counting_create (os_semaphore_t* semaphore, const char* name,
-                                const os_semaphore_count_t max_value,
-                                const os_semaphore_count_t initial_value);
+  os_semaphore_counting_construct (os_semaphore_t* semaphore, const char* name,
+                                   const os_semaphore_count_t max_value,
+                                   const os_semaphore_count_t initial_value);
 
   /**
-   * @brief Destroy the semaphore object instance.
+   * @brief Destruct the statically allocated semaphore object instance.
    * @param [in] semaphore Pointer to semaphore object instance.
    * @par Returns
    *  Nothing.
    */
   void
-  os_semaphore_destroy (os_semaphore_t* semaphore);
+  os_semaphore_destruct (os_semaphore_t* semaphore);
+
+  /**
+   * @brief Allocated a semaphore object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @return Pointer to new semaphore object instance.
+   */
+  os_semaphore_t*
+  os_semaphore_new (const char* name, const os_semaphore_attr_t* attr);
+
+  /**
+   * @brief Allocate a binary semaphore object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] initial_value Initial count value.
+   * @return Pointer to new semaphore object instance.
+   */
+  os_semaphore_t*
+  os_semaphore_binary_new (const char* name,
+                           const os_semaphore_count_t initial_value);
+
+  /**
+   * @brief Allocate a counting semaphore object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] max_value Maximum count value.
+   * @param [in] initial_value Initial count value.
+   * @return Pointer to new semaphore object instance.
+   */
+  os_semaphore_t*
+  os_semaphore_counting_new (const char* name,
+                             const os_semaphore_count_t max_value,
+                             const os_semaphore_count_t initial_value);
+
+  /**
+   * @brief Destruct the semaphore object instance.
+   * @param [in] semaphore Pointer to semaphore object instance.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_semaphore_delete (os_semaphore_t* semaphore);
+
+  /**
+   * @}
+   */
+
+  /**
+   * @name Semaphore Functions
+   * @{
+   */
 
   /**
    * @brief Get the semaphore name.
@@ -1601,6 +1900,20 @@ extern "C"
    */
 
   /**
+   * @name Compatibility Macros
+   * @{
+   */
+
+#define os_semaphore_create os_semaphore_construct
+#define os_semaphore_binary_create os_semaphore_binary_construct
+#define os_semaphore_counting_create os_semaphore_counting_construct
+#define os_semaphore_destroy os_semaphore_destruct
+
+  /**
+   * @}
+   */
+
+  /**
    * @}
    */
 
@@ -1611,7 +1924,7 @@ extern "C"
    */
 
   /**
-   * @name Memory pool functions
+   * @name Memory Pool Attributes Functions
    * @{
    */
 
@@ -1625,27 +1938,67 @@ extern "C"
   os_mempool_attr_init (os_mempool_attr_t* attr);
 
   /**
-   * @brief Create a memory pool object instance.
-   * @param [in] mempool Pointer to memory pool object instance.
-   * @param [in] name Pointer to name.
-   * @param [in] blocks The maximum number of items in the pool.
-   * @param [in] block_size_bytes The size of an item, in bytes.
-   * @param [in] attr Pointer to attributes.
-   * @par Returns
-   *  Nothing.
+   * @}
    */
-  void
-  os_mempool_create (os_mempool_t* mempool, const char* name, size_t blocks,
-                     size_t block_size_bytes, const os_mempool_attr_t* attr);
 
   /**
-   * @brief Destroy the memory pool object instance.
+   * @name Memory Pool Creation Functions
+   * @{
+   */
+
+  /**
+   * @brief Construct a statically allocated memory pool object instance.
+   * @param [in] mempool Pointer to memory pool object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] blocks The maximum number of items in the pool.
+   * @param [in] block_size_bytes The size of an item, in bytes.
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_mempool_construct (os_mempool_t* mempool, const char* name, size_t blocks,
+                        size_t block_size_bytes, const os_mempool_attr_t* attr);
+
+  /**
+   * @brief Destruct the statically allocated memory pool object instance.
    * @param [in] mempool Pointer to memory pool object instance.
    * @par Returns
    *  Nothing.
    */
   void
-  os_mempool_destroy (os_mempool_t* mempool);
+  os_mempool_destruct (os_mempool_t* mempool);
+
+  /**
+   * @brief Allocate a memory pool object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] blocks The maximum number of items in the pool.
+   * @param [in] block_size_bytes The size of an item, in bytes.
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @return Pointer to new memory pool object instance.
+   */
+  os_mempool_t*
+  os_mempool_new (const char* name, size_t blocks, size_t block_size_bytes,
+                  const os_mempool_attr_t* attr);
+
+  /**
+   * @brief Destruct the memory pool object instance and deallocate it.
+   * @param [in] mempool Pointer to dynamically allocated memory pool
+   *  object instance.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_mempool_delete (os_mempool_t* mempool);
+
+  /**
+   * @}
+   */
+
+  /**
+   * @name Memory Pool Functions
+   * @{
+   */
 
   /**
    * @brief Get the memory pool name.
@@ -1754,6 +2107,18 @@ extern "C"
    */
 
   /**
+   * @name Compatibility Macros
+   * @{
+   */
+
+#define os_mempool_create os_mempool_construct
+#define os_mempool_destroy os_mempool_destruct
+
+  /**
+   * @}
+   */
+
+  /**
    * @}
    */
 
@@ -1764,7 +2129,7 @@ extern "C"
    */
 
   /**
-   * @name Message queue functions
+   * @name Message Queue Attributes Functions
    * @{
    */
 
@@ -1778,27 +2143,67 @@ extern "C"
   os_mqueue_attr_init (os_mqueue_attr_t* attr);
 
   /**
-   * @brief Create a message queue object instance.
-   * @param [in] mqueue Pointer to message queue object instance.
-   * @param [in] name Pointer to name.
-   * @param [in] msgs The number of messages.
-   * @param [in] msg_size_bytes The message size, in bytes.
-   * @param [in] attr Pointer to attributes.
-   * @par Returns
-   *  Nothing.
+   * @}
    */
-  void
-  os_mqueue_create (os_mqueue_t* mqueue, const char* name, size_t msgs,
-                    size_t msg_size_bytes, const os_mqueue_attr_t* attr);
 
   /**
-   * @brief Destroy the message queue object instance.
+   * @name Message Queue Creation Functions
+   * @{
+   */
+
+  /**
+   * @brief Construct a statically allocated message queue object instance.
+   * @param [in] mqueue Pointer to message queue object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] msgs The number of messages.
+   * @param [in] msg_size_bytes The message size, in bytes.
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_mqueue_construct (os_mqueue_t* mqueue, const char* name, size_t msgs,
+                       size_t msg_size_bytes, const os_mqueue_attr_t* attr);
+
+  /**
+   * @brief Destruct the statically allocated message queue object instance.
    * @param [in] mqueue Pointer to message queue object instance.
    * @par Returns
    *  Nothing.
    */
   void
-  os_mqueue_destroy (os_mqueue_t* mqueue);
+  os_mqueue_destruct (os_mqueue_t* mqueue);
+
+  /**
+   * @brief Allocate a message queue object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] msgs The number of messages.
+   * @param [in] msg_size_bytes The message size, in bytes.
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @return Pointer to new message queue object instance.
+   */
+  os_mqueue_t*
+  os_mqueue_new (const char* name, size_t msgs, size_t msg_size_bytes,
+                 const os_mqueue_attr_t* attr);
+
+  /**
+   * @brief Destruct the message queue object instance and deallocate it.
+   * @param [in] mqueue Pointer to dynamically allocated message queue
+   *  object instance.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_mqueue_delete (os_mqueue_t* mqueue);
+
+  /**
+   * @}
+   */
+
+  /**
+   * @name Message Queue Functions
+   * @{
+   */
 
   /**
    * @brief Get the message queue name.
@@ -1998,6 +2403,18 @@ extern "C"
    */
 
   /**
+   * @name Compatibility Macros
+   * @{
+   */
+
+#define os_mqueue_create os_mqueue_construct
+#define os_mqueue_destroy os_mqueue_destruct
+
+  /**
+   * @}
+   */
+
+  /**
    * @}
    */
 
@@ -2008,7 +2425,7 @@ extern "C"
    */
 
   /**
-   * @name Event flags functions
+   * @name Event Flags Attributes Functions
    * @{
    */
 
@@ -2022,25 +2439,62 @@ extern "C"
   os_evflags_attr_init (os_evflags_attr_t* attr);
 
   /**
-   * @brief Create an event flags object instance.
-   * @param [in] evflags Pointer to event flags object instance.
-   * @param [in] name Pointer to name.
-   * @param [in] attr Pointer to attributes.
-   * @par Returns
-   *  Nothing.
+   * @}
    */
-  void
-  os_evflags_create (os_evflags_t* evflags, const char* name,
-                     const os_evflags_attr_t* attr);
 
   /**
-   * @brief Destroy the event flags object instance.
+   * @name Event Flags Creation Functions
+   * @{
+   */
+
+  /**
+   * @brief Construct a statically allocated event flags object instance.
+   * @param [in] evflags Pointer to event flags object instance storage.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_evflags_construct (os_evflags_t* evflags, const char* name,
+                        const os_evflags_attr_t* attr);
+
+  /**
+   * @brief Destruct the statically allocated event flags object instance.
    * @param [in] evflags Pointer to event flags object instance.
    * @par Returns
    *  Nothing.
    */
   void
-  os_evflags_destroy (os_evflags_t* evflags);
+  os_evflags_destruct (os_evflags_t* evflags);
+
+  /**
+   * @brief Allocate an event flags object instance and construct it.
+   * @param [in] name Pointer to name (may be NULL).
+   * @param [in] attr Pointer to attributes (may be NULL).
+   * @return Pointer to new event flags object instance.
+   */
+  os_evflags_t*
+  os_evflags_new (const char* name, const os_evflags_attr_t* attr);
+
+  /**
+   * @brief Destruct the event flags object instance and deallocate it.
+   * @param [in] evflags Pointer to dynamically allocated event flags
+   *  object instance.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_evflags_delete (os_evflags_t* evflags);
+
+  /**
+   * @}
+   */
+
+  /**
+   * @name Event Flags Functions
+   * @{
+   */
 
   /**
    * @brief Get the event flags name.
@@ -2157,6 +2611,126 @@ extern "C"
    */
   bool
   os_evflags_are_waiting (os_evflags_t* evflags);
+
+  /**
+   * @}
+   */
+
+  /**
+   * @name Compatibility Macros
+   * @{
+   */
+
+#define os_evflags_create os_evflags_construct
+#define os_evflags_destroy os_evflags_destruct
+
+  /**
+   * @}
+   */
+
+  /**
+   * @}
+   */
+
+  // --------------------------------------------------------------------------
+  /**
+   * @addtogroup cmsis-plus-rtos-c-memres
+   * @{
+   */
+
+  /**
+   * @name Memory Management Functions
+   * @{
+   */
+
+  /**
+   * @brief Get the application default memory resource (free store).
+   * @return Pointer to memory resource object instance.
+   */
+  os_memory_t*
+  os_memory_get_default (void);
+
+  /**
+   * @brief Allocate a block of memory.
+   * @param memory Pointer to a memory resource object instance.
+   * @param bytes Number of bytes to allocate.
+   * @param alignment Integer (power of 2) with alignment constraints.
+   */
+  void*
+  os_memory_allocate (os_memory_t* memory, size_t bytes, size_t alignment);
+
+  /**
+   * @brief Deallocate the previously allocated block of memory.
+   * @param memory Pointer to a memory resource object instance.
+   * @param addr Address of memory block to free.
+   * @param bytes Number of bytes to deallocate (may be 0 if unknown).
+   * @param alignment Integer (power of 2) with alignment constraints.
+   */
+  void
+  os_memory_deallocate (os_memory_t* memory, void* addr, size_t bytes,
+                        size_t alignment);
+
+  /**
+   * @brief Reset the memory manager to the initial state.
+   * @param memory Pointer to a memory resource object instance.
+   * @par Parameters
+   *  None.
+   * @par Returns
+   *  Nothing.
+   */
+  void
+  os_memory_reset (os_memory_t* memory);
+
+  /**
+   * @brief Coalesce free blocks.
+   * @param memory Pointer to a memory resource object instance.
+   * @par Parameters
+   *  None.
+   * @retval true if the operation resulted in larger blocks.
+   * @retval false if the operation was ineffective.
+   */
+  bool
+  os_memory_coalesce (os_memory_t* memory);
+
+  /**
+   * @brief Get the total size of managed memory.
+   * @param memory Pointer to a memory resource object instance.
+   * @return Number of bytes.
+   */
+  size_t
+  os_memory_get_total_bytes (os_memory_t* memory);
+
+  /**
+   * @brief Get the total size of allocated chunks.
+   * @param memory Pointer to a memory resource object instance.
+   * @return Number of bytes.
+   */
+  size_t
+  os_memory_get_allocated_bytes (os_memory_t* memory);
+
+  /**
+   * @brief Get the total size of free chunks.
+   * @param memory Pointer to a memory resource object instance.
+   * @return Number of bytes.
+   */
+  size_t
+  os_memory_get_free_bytes (os_memory_t* memory);
+
+  /**
+   * @brief Get the number of allocated chunks.
+   * @param memory Pointer to a memory resource object instance.
+   * @return Number of chunks.
+   */
+  size_t
+  os_memory_get_allocated_chunks (os_memory_t* memory);
+
+  /**
+   * @brief Get the number of free chunks.
+   * @param memory Pointer to a memory resource object instance.
+   * @return Number of chunks.
+   */
+  size_t
+  os_memory_get_free_chunks (os_memory_t* memory);
 
 /**
  * @}

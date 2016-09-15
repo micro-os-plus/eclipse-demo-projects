@@ -30,8 +30,11 @@
 // ----------------------------------------------------------------------------
 
 #include <cmsis-plus/os-app-config.h>
+#include <cmsis-plus/rtos/os-hooks.h>
 
 #include <cmsis-plus/diag/trace.h>
+
+#include <cmsis_device.h>
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -95,8 +98,8 @@ extern unsigned int __bss_regions_array_start;
 extern unsigned int __bss_regions_array_end;
 #endif
 
-extern void
-os_initialize_args (int*, char***);
+extern unsigned int _Heap_Begin;
+extern unsigned int _Heap_Limit;
 
 extern int
 main (int argc, char* argv[]);
@@ -121,12 +124,6 @@ os_run_init_array (void);
 // Not static since it is called from exit()
 void
 os_run_fini_array (void);
-
-void
-os_initialize_hardware_early (void);
-
-void
-os_initialize_hardware (void);
 
 // ----------------------------------------------------------------------------
 
@@ -176,7 +173,7 @@ inline __attribute__((always_inline))
 void
 os_run_init_array (void)
 {
-  trace_printf("%s()\n", __func__);
+  trace_printf ("%s()\n", __func__);
 
   int count = __preinit_array_end - __preinit_array_start;
   for (int i = 0; i < count; i++)
@@ -184,9 +181,9 @@ os_run_init_array (void)
       __preinit_array_start[i] ();
     }
 
-  // If you need to run the code in the .init section, please use
-  // the startup files, since this requires the code in crti.o and crtn.o
-  // to add the function prologue/epilogue.
+  // If the application needs to run the code in the .init section,
+  // please use the startup files, since this requires the code in
+  // crti.o and crtn.o to add the function prologue/epilogue.
   //_init(); // DO NOT ENABE THIS!
 
   count = __init_array_end - __init_array_start;
@@ -200,7 +197,7 @@ os_run_init_array (void)
 void
 os_run_fini_array (void)
 {
-  trace_printf("%s()\n", __func__);
+  trace_printf ("%s()\n", __func__);
 
   int count = __fini_array_end - __fini_array_start;
   for (int i = count; i > 0; i--)
@@ -208,9 +205,9 @@ os_run_fini_array (void)
       __fini_array_start[i - 1] ();
     }
 
-  // If you need to run the code in the .fini section, please use
-  // the startup files, since this requires the code in crti.o and crtn.o
-  // to add the function prologue/epilogue.
+  // If the application needs to run the code in the .fini section,
+  // please use the startup files, since this requires the code in
+  // crti.o and crtn.o to add the function prologue/epilogue.
   //_fini(); // DO NOT ENABLE THIS!
 }
 
@@ -238,16 +235,25 @@ __data_end_guard = DATA_END_GUARD_VALUE;
 
 #endif // defined(DEBUG) && (OS_BOOL_STARTUP_GUARD_CHECKS)
 
-// This is the place where Cortex-M core will go immediately after reset,
-// via a call or jump from the Reset_Handler.
-//
-// For the call to work, and for the call to os_initialize_hardware_early()
-// to work, the reset stack must point to a valid internal RAM area.
-
+/**
+ * @details
+ * This is the place where the Cortex-M core will go immediately
+ * after reset (the `Reset_Handler` calls this function).
+ *
+ * To reach this location, the reset stack must point to a valid
+ * internal RAM area.
+ *
+ * Debugging new startup configurations usually begins with placing
+ * a breakpoint at `_start()`, and stepping through the routine.
+ */
 void
 __attribute__ ((section(".after_vectors"),noreturn,weak))
 _start (void)
 {
+  // After Reset the Cortex-M processor is in Thread mode,
+  // priority is Privileged, and the Stack is set to Main.
+
+  // --------------------------------------------------------------------------
 
   // Initialise hardware right after reset, to switch clock to higher
   // frequency and have the rest of the initialisations run faster.
@@ -258,19 +264,23 @@ _start (void)
   // Also useful on platform with external RAM, that need to be
   // initialised before filling the BSS section.
 
-  os_initialize_hardware_early ();
+  os_startup_initialize_hardware_early ();
 
   // Use Old Style DATA and BSS section initialisation,
   // that will manage a single BSS sections.
 
 #if defined(DEBUG) && (OS_BOOL_STARTUP_GUARD_CHECKS)
+
   __data_begin_guard = DATA_GUARD_BAD_VALUE;
   __data_end_guard = DATA_GUARD_BAD_VALUE;
+
 #endif
 
 #if !defined(OS_INCLUDE_STARTUP_INIT_MULTIPLE_RAM_SECTIONS)
+
   // Copy the DATA segment from Flash to RAM (inlined).
   os_initialize_data (&_sidata, &_sdata, &_edata);
+
 #else
 
   // Copy the data sections from flash to SRAM.
@@ -287,22 +297,30 @@ _start (void)
 #endif
 
 #if defined(DEBUG) && (OS_BOOL_STARTUP_GUARD_CHECKS)
+
   if ((__data_begin_guard != DATA_BEGIN_GUARD_VALUE)
       || (__data_end_guard != DATA_END_GUARD_VALUE))
     {
-      while (1)
-        ;
+      while (true)
+        {
+          __NOP ();
+        }
     }
+
 #endif
 
 #if defined(DEBUG) && (OS_BOOL_STARTUP_GUARD_CHECKS)
+
   __bss_begin_guard = BSS_GUARD_BAD_VALUE;
   __bss_end_guard = BSS_GUARD_BAD_VALUE;
+
 #endif
 
 #if !defined(OS_INCLUDE_STARTUP_INIT_MULTIPLE_RAM_SECTIONS)
+
   // Zero fill the BSS section (inlined).
   os_initialize_bss (&__bss_start__, &__bss_end__);
+
 #else
 
   // Zero fill all bss segments
@@ -313,28 +331,38 @@ _start (void)
       unsigned int* region_end = (unsigned int*) (*p++);
       os_initialize_bss (region_begin, region_end);
     }
+
 #endif
 
 #if defined(DEBUG) && (OS_BOOL_STARTUP_GUARD_CHECKS)
+
   if ((__bss_begin_guard != 0) || (__bss_end_guard != 0))
     {
-      while (1)
-        ;
+      while (true)
+        {
+          __NOP ();
+        }
     }
+
 #endif
 
   // Hook to continue the initialisations. Usually compute and store the
   // clock frequency in the global CMSIS variable, cleared above.
-  os_initialize_hardware ();
+  os_startup_initialize_hardware ();
 
   // Initialise the trace output device. From this moment on,
   // trace_printf() calls are available (including in static constructors).
   trace_initialize ();
 
+  trace_printf ("Hardware initialised.\n");
+
+  os_startup_initialize_free_store (
+      &_Heap_Begin, (size_t) ((char*) (&_Heap_Limit) - (char*) (&_Heap_Begin)));
+
   // Get the argc/argv (useful in semihosting configurations).
   int argc;
   char** argv;
-  os_initialize_args (&argc, &argv);
+  os_startup_initialize_args (&argc, &argv);
 
   // Call the standard library initialisation (mandatory for C++ to
   // execute the constructors for the static objects).
@@ -343,7 +371,8 @@ _start (void)
   // Call the main entry point, and save the exit code.
   int code = main (argc, argv);
 
-  // Also run the C++ static destructors.
+  // Standard program termination;
+  // `atexit()` and C++ static destructors are executed.
   exit (code);
   /* NOTREACHED */
 }
@@ -352,15 +381,8 @@ _start (void)
 
 #if !defined(OS_USE_SEMIHOSTING_SYSCALLS)
 
-// Semihosting uses a more elaborate version of os_initialize_args()
+// Semihosting uses a more elaborate version of os_startup_initialize_args()
 // to parse args received from host.
-
-// `initialise_monitor_handles()` is a newlib libgloss function used to prepare
-// the stdio files when using semihosting. Better keep the name the same.
-#if __STDC_HOSTED__ != 0
-extern void
-initialise_monitor_handles (void);
-#endif
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -371,10 +393,11 @@ initialise_monitor_handles (void);
 // For semihosting applications, this is redefined to get the real
 // args from the debugger.
 //
-// You can redefine it to fetch some args from a non-volatile memory.
+// The application can redefine it to fetch some args from a
+// non-volatile memory.
 
 void __attribute__((weak))
-os_initialize_args (int* p_argc, char*** p_argv)
+os_startup_initialize_args (int* p_argc, char*** p_argv)
   {
     // By the time we reach this, the data and bss should have been initialised.
 
@@ -392,11 +415,6 @@ os_initialize_args (int* p_argc, char*** p_argv)
 
     *p_argc = 1;
     *p_argv = &argv[0];
-
-#if __STDC_HOSTED__ != 0
-    // temporary here
-    initialise_monitor_handles ();
-#endif
 
     return;
   }

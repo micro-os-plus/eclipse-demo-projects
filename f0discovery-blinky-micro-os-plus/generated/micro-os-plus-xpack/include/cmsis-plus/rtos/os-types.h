@@ -32,8 +32,11 @@
 
 #if defined(__cplusplus)
 
+// This file is included at the end of os-decls.h.
+
 // Include the application specific definitions.
 #include <cmsis-plus/os-app-config.h>
+#include <memory>
 
 namespace os
 {
@@ -41,13 +44,21 @@ namespace os
   {
     namespace memory
     {
-#if !defined(OS_INCLUDE_RTOS_CUSTOM_ALLOCATOR)
+
+#if !defined(OS_INCLUDE_RTOS_CUSTOM_ALLOCATOR) || defined(__DOXYGEN__)
+
+      /**
+       * @brief Type of allocator used by the system objects.
+       *  Must be stateless.
+       * @ingroup cmsis-plus-rtos-memres
+       * @tparam T Type of elements to be allocated.
+       */
       template<typename T>
-        using allocator = new_delete_allocator<T>;
+        using allocator = allocator_stateless_default_resource<T>;
+
 #endif
 
     } /* namespace memory */
-
   } /* namespace rtos */
 } /* namespace os */
 

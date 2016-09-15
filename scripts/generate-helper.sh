@@ -346,6 +346,7 @@ do_add_cmsis_plus_xpack() {
   cp -r "${pack_folder}/src/rtos" "${dest_folder}/src"
   cp -r "${pack_folder}/src/semihosting" "${dest_folder}/src"
   cp -r "${pack_folder}/src/startup" "${dest_folder}/src"
+  cp -r "${pack_folder}/src/memory" "${dest_folder}/src"
 }
 
 # -----------------------------------------------------------------------------

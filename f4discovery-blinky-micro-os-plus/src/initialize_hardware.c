@@ -27,6 +27,7 @@
 
 // ----------------------------------------------------------------------------
 
+#include <cmsis-plus/rtos/os-hooks.h>
 #include <cmsis_device.h>
 
 // ----------------------------------------------------------------------------
@@ -49,12 +50,6 @@
 // the memory banks in system/src/cmsis/system_stm32f4xx.c to match your needs.
 
 // ----------------------------------------------------------------------------
-// Forward declarations.
-
-void
-os_initialize_hardware(void);
-
-// ----------------------------------------------------------------------------
 // Extern declarations.
 
 extern int
@@ -75,7 +70,7 @@ cube_mx_init(void);
 // and calling HAL_IncTick().
 
 void
-os_initialize_hardware(void)
+os_startup_initialize_hardware(void)
 {
   // Initialise the HAL Library; it must be the first function
   // to be executed before the call of any HAL function.

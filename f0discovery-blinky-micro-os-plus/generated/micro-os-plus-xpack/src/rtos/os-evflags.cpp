@@ -25,12 +25,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <cassert>
-
 #include <cmsis-plus/rtos/os.h>
-#include <cmsis-plus/rtos/port/os-inlines.h>
-
-#include <cmsis-plus/diag/trace.h>
 
 // ----------------------------------------------------------------------------
 
@@ -159,7 +154,7 @@ namespace os
      * @warning Cannot be invoked from Interrupt Service Routines.
      */
     event_flags::event_flags (const char* name, const attributes& attr) :
-        object_named
+        object_named_system
           { name }
     {
 #if defined(OS_TRACE_RTOS_EVFLAGS)

@@ -60,7 +60,7 @@ namespace os
      * @headerfile os.h <cmsis-plus/rtos/os.h>
      * @ingroup cmsis-plus-rtos-mqueue
      */
-    class message_queue : public internal::object_named
+    class message_queue : public internal::object_named_system
     {
     public:
 
@@ -156,25 +156,18 @@ namespace os
         /**
          * @brief Construct a message queue attributes object instance.
          * @par Parameters
-         *  None
+         *  None.
          */
         constexpr
         attributes ();
 
-        /**
-         * @cond ignore
-         */
-
+        // The rule of five.
         attributes (const attributes&) = default;
         attributes (attributes&&) = default;
         attributes&
         operator= (const attributes&) = default;
         attributes&
         operator= (attributes&&) = default;
-
-        /**
-         * @endcond
-         */
 
         /**
          * @brief Destruct the message queue attributes object instance.
@@ -306,8 +299,17 @@ namespace os
       message_queue ();
       message_queue (const char* name);
 
+      /**
+       * @endcond
+       */
+
     public:
 
+      /**
+       * @cond ignore
+       */
+
+      // The rule of five.
       message_queue (const message_queue&) = delete;
       message_queue (message_queue&&) = delete;
       message_queue&
@@ -484,7 +486,7 @@ namespace os
       /**
        * @brief Get queue capacity.
        * @par Parameters
-       *  None
+       *  None.
        * @return The max number of messages that can be queued.
        */
       std::size_t
@@ -493,7 +495,7 @@ namespace os
       /**
        * @brief Get queue length.
        * @par Parameters
-       *  None
+       *  None.
        * @return The number of messages in the queue.
        */
       std::size_t
@@ -502,7 +504,7 @@ namespace os
       /**
        * @brief Get message size.
        * @par Parameters
-       *  None
+       *  None.
        * @return The message size, in bytes.
        */
       std::size_t
@@ -511,7 +513,7 @@ namespace os
       /**
        * @brief Check if the queue is empty.
        * @par Parameters
-       *  None
+       *  None.
        * @retval true The queue has no messages.
        * @retval false The queue has some messages.
        */
@@ -521,7 +523,7 @@ namespace os
       /**
        * @brief Check if the queue is full.
        * @par Parameters
-       *  None
+       *  None.
        * @retval true The queue is full.
        * @retval false The queue is not full.
        */
@@ -531,7 +533,7 @@ namespace os
       /**
        * @brief Reset the message queue.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The queue was reset.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
        */
@@ -571,7 +573,7 @@ namespace os
       /**
        * @brief Internal function used to initialise the queue to empty state.
        * @par Parameters
-       *  None
+       *  None.
        * @par Returns
        *  Nothing.
        */
@@ -779,12 +781,13 @@ namespace os
                                  const allocator_type& allocator =
                                      allocator_type ());
 
+      public:
+
         /**
          * @cond ignore
          */
 
-      public:
-
+        // The rule of five.
         message_queue_allocated (const message_queue_allocated&) = delete;
         message_queue_allocated (message_queue_allocated&&) = delete;
         message_queue_allocated&
@@ -825,6 +828,7 @@ namespace os
          * @brief Standard allocator type definition.
          */
         using value_type = T;
+
         /**
          * @brief Standard allocator type definition.
          */
@@ -866,6 +870,7 @@ namespace os
          * @cond ignore
          */
 
+        // The rule of five.
         message_queue_typed (const message_queue_typed&) = delete;
         message_queue_typed (message_queue_typed&&) = delete;
         message_queue_typed&
@@ -1026,7 +1031,7 @@ namespace os
      * @ingroup cmsis-plus-rtos-mqueue
      */
     template<typename T, std::size_t N>
-      class message_queue_static : public message_queue
+      class message_queue_inclusive : public message_queue
       {
       public:
 
@@ -1049,26 +1054,27 @@ namespace os
          * @brief Construct a typed message queue object instance.
          * @param [in] attr Reference to attributes.
          */
-        message_queue_static (const attributes& attr = initializer);
+        message_queue_inclusive (const attributes& attr = initializer);
 
         /**
          * @brief Construct a named typed message queue object instance.
          * @param [in] name Pointer to name.
          * @param [in] attr Reference to attributes.
          */
-        message_queue_static (const char* name, const attributes& attr =
-                                  initializer);
+        message_queue_inclusive (const char* name, const attributes& attr =
+                                     initializer);
 
         /**
          * @cond ignore
          */
 
-        message_queue_static (const message_queue_static&) = delete;
-        message_queue_static (message_queue_static&&) = delete;
-        message_queue_static&
-        operator= (const message_queue_static&) = delete;
-        message_queue_static&
-        operator= (message_queue_static&&) = delete;
+        // The rule of five.
+        message_queue_inclusive (const message_queue_inclusive&) = delete;
+        message_queue_inclusive (message_queue_inclusive&&) = delete;
+        message_queue_inclusive&
+        operator= (const message_queue_inclusive&) = delete;
+        message_queue_inclusive&
+        operator= (message_queue_inclusive&&) = delete;
 
         /**
          * @endcond
@@ -1078,7 +1084,7 @@ namespace os
          * @brief Destruct the typed message queue object instance.
          */
         virtual
-        ~message_queue_static ();
+        ~message_queue_inclusive ();
 
         /**
          * @}
@@ -1719,8 +1725,9 @@ namespace os
      */
     template<typename T, std::size_t N>
       inline
-      message_queue_static<T, N>::message_queue_static (const attributes& attr) :
-          message_queue_static
+      message_queue_inclusive<T, N>::message_queue_inclusive (
+          const attributes& attr) :
+          message_queue_inclusive
             { nullptr, attr }
       {
         ;
@@ -1761,8 +1768,8 @@ namespace os
      * @warning Cannot be invoked from Interrupt Service Routines.
      */
     template<typename T, std::size_t N>
-      message_queue_static<T, N>::message_queue_static (const char* name,
-                                                        const attributes& attr) :
+      message_queue_inclusive<T, N>::message_queue_inclusive (
+          const char* name, const attributes& attr) :
           message_queue (name)
       {
         internal_construct_ (msgs, sizeof(value_type), attr, &arena_,
@@ -1783,7 +1790,7 @@ namespace os
      * Implemented as a wrapper over the parent destructor.
      */
     template<typename T, std::size_t N>
-      message_queue_static<T, N>::~message_queue_static ()
+      message_queue_inclusive<T, N>::~message_queue_inclusive ()
       {
         ;
       }
@@ -1797,7 +1804,8 @@ namespace os
      */
     template<typename T, std::size_t N>
       inline result_t
-      message_queue_static<T, N>::send (const value_type* msg, priority_t mprio)
+      message_queue_inclusive<T, N>::send (const value_type* msg,
+                                           priority_t mprio)
       {
         return message_queue::send (reinterpret_cast<const char*> (msg),
                                     sizeof(value_type), mprio);
@@ -1812,8 +1820,8 @@ namespace os
      */
     template<typename T, std::size_t N>
       inline result_t
-      message_queue_static<T, N>::try_send (const value_type* msg,
-                                            priority_t mprio)
+      message_queue_inclusive<T, N>::try_send (const value_type* msg,
+                                               priority_t mprio)
       {
         return message_queue::try_send (reinterpret_cast<const char*> (msg),
                                         sizeof(value_type), mprio);
@@ -1828,9 +1836,9 @@ namespace os
      */
     template<typename T, std::size_t N>
       inline result_t
-      message_queue_static<T, N>::timed_send (const value_type* msg,
-                                              clock::duration_t timeout,
-                                              priority_t mprio)
+      message_queue_inclusive<T, N>::timed_send (const value_type* msg,
+                                                 clock::duration_t timeout,
+                                                 priority_t mprio)
       {
         return message_queue::timed_send (reinterpret_cast<const char*> (msg),
                                           sizeof(value_type), timeout, mprio);
@@ -1845,7 +1853,8 @@ namespace os
      */
     template<typename T, std::size_t N>
       inline result_t
-      message_queue_static<T, N>::receive (value_type* msg, priority_t* mprio)
+      message_queue_inclusive<T, N>::receive (value_type* msg,
+                                              priority_t* mprio)
       {
         return message_queue::receive (reinterpret_cast<char*> (msg),
                                        sizeof(value_type), mprio);
@@ -1860,8 +1869,8 @@ namespace os
      */
     template<typename T, std::size_t N>
       inline result_t
-      message_queue_static<T, N>::try_receive (value_type* msg,
-                                               priority_t* mprio)
+      message_queue_inclusive<T, N>::try_receive (value_type* msg,
+                                                  priority_t* mprio)
       {
         return message_queue::try_receive (reinterpret_cast<char*> (msg),
                                            sizeof(value_type), mprio);
@@ -1876,9 +1885,9 @@ namespace os
      */
     template<typename T, std::size_t N>
       inline result_t
-      message_queue_static<T, N>::timed_receive (value_type* msg,
-                                                 clock::duration_t timeout,
-                                                 priority_t* mprio)
+      message_queue_inclusive<T, N>::timed_receive (value_type* msg,
+                                                    clock::duration_t timeout,
+                                                    priority_t* mprio)
       {
         return message_queue::timed_receive (reinterpret_cast<char*> (msg),
                                              sizeof(value_type), timeout, mprio);

@@ -15,7 +15,7 @@
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.gdbServerExecutable" value="${qemu_path}/${qemu_executable}"/>
 <intAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.gdbServerGdbPortNumber" value="1234"/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.gdbServerOther" value="-d unimp,guest_errors"/>
-<booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.isGdbServerVerbose" value="false"/>
+<booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.isGdbServerVerbose" value="true"/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.otherInitCommands" value=""/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.otherRunCommands" value=""/>
 <stringAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.semihosting.cmdline" value="f4discovery-blinky-micro-os-plus"/>

@@ -25,12 +25,7 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <cassert>
-
 #include <cmsis-plus/rtos/os.h>
-#include <cmsis-plus/rtos/port/os-inlines.h>
-
-#include <cmsis-plus/diag/trace.h>
 
 // ----------------------------------------------------------------------------
 
@@ -468,7 +463,7 @@ namespace os
      * @warning Cannot be invoked from Interrupt Service Routines.
      */
     mutex::mutex (const char* name, const attributes& attr) :
-        object_named
+        object_named_system
           { name }, //
         type_ (attr.mx_type), //
         protocol_ (attr.mx_protocol), //

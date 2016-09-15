@@ -29,57 +29,82 @@
 
 // ----------------------------------------------------------------------------
 
+#include <cmsis-plus/rtos/os-hooks.h>
 #include <cmsis-plus/diag/trace.h>
+#include <cmsis_device.h>
 
 #include <stdlib.h>
+#include <stdbool.h>
 #include "atexit.h"
+
+// ----------------------------------------------------------------------------
+
+void
+__attribute__ ((noreturn))
+os_exit (int code);
+
+extern void
+os_goodbye (void);
+
+// ----------------------------------------------------------------------------
+
+void __attribute__((weak,noreturn))
+abort (void)
+{
+  trace_puts ("abort(), exiting...");
+
+  _Exit (1);
+  /* NOTREACHED */
+}
 
 // ----------------------------------------------------------------------------
 
 /**
  * @details
- * `exit()` does two kinds of cleanup before ending execution of your
- * program.
+ * `exit()` does several cleanups before ending the application:
  *
- * First, it calls all application-defined cleanup functions
- * you have enrolled with atexit().
- *
- * Second, files and streams are
+ * - calls all application-defined cleanup functions enrolled with `atexit()`;
+ * - files and streams are
  * cleaned up: any pending output is delivered to the host system, each
- * open file or stream is closed, and files created by <<tmpfile>> are
- * deleted (wishful thinking, not implemented).
+ * open file or stream is closed, and files created by `tmpfile()` are
+ * deleted (wishful thinking, not implemented);
+ * - call the static destructors (in reverse order of constructors)
+ *
+ * When all cleanups are done, `_Exit()` is called to perform
+ * the actual termination.
  */
 void
 __attribute__ ((noreturn))
-exit(int status)
+exit (int code)
 {
-  trace_printf("%s(%d)\n", __func__, status);
+  trace_printf ("%s(%d)\n", __func__, code);
 
   // Call the cleanup functions enrolled with atexit().
-  __call_exitprocs (status, NULL);
+  __call_exitprocs (code, NULL);
 
   // Run the C++ static destructors.
   os_run_fini_array ();
 
-  _Exit (status);
+  // This should normally be the end of it.
+  _Exit (code);
 
-  // Present here in case _exit() was reimplemented poorly and returns.
-#if defined(DEBUG)
-  trace_dbg_bkpt();
-#endif
-  while (1)
-    ;
+  // Reset again, in case _Exit() did not kill it.
+  // This normally should not happen, but since it can be
+  // overloaded by the application, better safe than sorry.
+  os_terminate (code);
+
+  // If it does not want o die, loop.
+  while (true)
+    {
+      __NOP ();
+    }
   /* NOTREACHED */
 }
 
-#if !defined(OS_USE_SEMIHOSTING_SYSCALLS)
-
-#if !defined(DEBUG)
-extern void __attribute__((noreturn))
-__reset_hardware(void);
-#endif
-
 // ----------------------------------------------------------------------------
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 
 // On Release, call the hardware reset procedure.
 // On Debug, use a breakpoint to notify the debugger.
@@ -89,28 +114,62 @@ __reset_hardware(void);
 // function sends the return code to the host.
 
 void __attribute__((weak, noreturn))
-_Exit (int code __attribute__((unused)))
+_Exit (int code)
 {
-  trace_printf ("%s()", __func__);
+  trace_printf ("%s()\n", __func__);
 
-  trace_flush();
+  // Print some statistics about memory use.
+  os_terminate_goodbye ();
 
-#if !defined(DEBUG)
-  __reset_hardware();
-#else
-  trace_dbg_bkpt();
-#endif
+  // Gracefully terminate the trace session.
+  trace_flush ();
 
-  // For just in case.
-  while (1)
-    ;
+#if defined(DEBUG)
+
+#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
+  if ((CoreDebug->DHCSR & CoreDebug_DHCSR_C_DEBUGEN_Msk) != 0)
+    {
+      // Break only if the debugger is connected.
+      __BKPT(0);
+    }
+#endif /* defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) */
+
+#endif /* defined(DEBUG) */
+
+  // Reset hardware or terminate the semihosting session.
+  os_terminate (code);
+
+  while (true)
+    {
+      __NOP ();
+    }
   /* NOTREACHED */
 }
+
+#pragma GCC diagnostic pop
 
 void __attribute__((weak, alias ("_Exit")))
 _exit (int status);
 
-#endif /* !defined(OS_USE_SEMIHOSTING_SYSCALLS) */
+// ----------------------------------------------------------------------------
+
+// Semihosting defines this function to terminate the semihosting session.
+#if !defined(OS_USE_SEMIHOSTING_SYSCALLS)
+
+/**
+ * @details
+ * The freestanding version of this function resets the MCU core,
+ * using the NVIC features.
+ */
+void
+__attribute__ ((noreturn,weak))
+os_terminate(int code __attribute__((unused)))
+  {
+    NVIC_SystemReset ();
+    /* NOTREACHED */
+  }
+
+#endif
 
 // ----------------------------------------------------------------------------
 

@@ -25,14 +25,8 @@
  * OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include <cassert>
-#include <new>
-#include <memory>
-
 #include <cmsis-plus/rtos/os.h>
-#include <cmsis-plus/rtos/port/os-inlines.h>
-
-#include <cmsis-plus/diag/trace.h>
+#include <memory>
 
 // ----------------------------------------------------------------------------
 
@@ -194,7 +188,7 @@ namespace os
     }
 
     memory_pool::memory_pool (const char* name) :
-        object_named
+        object_named_system
           { name }
     {
 #if defined(OS_TRACE_RTOS_MEMPOOL)
@@ -269,7 +263,7 @@ namespace os
                               std::size_t block_size_bytes,
                               const attributes& attr,
                               const allocator_type& allocator) :
-        object_named
+        object_named_system
           { name }
     {
 #if defined(OS_TRACE_RTOS_MEMPOOL)

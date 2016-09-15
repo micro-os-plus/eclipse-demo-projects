@@ -30,6 +30,7 @@
 // ----------------------------------------------------------------------------
 
 #include <cmsis-plus/os-app-config.h>
+#include <cmsis-plus/rtos/os-hooks.h>
 
 #if defined(OS_USE_SEMIHOSTING_SYSCALLS)
 
@@ -72,8 +73,8 @@
 // Notes: Reentrancy and 'errno'.
 //
 // The standard headers define errno as '*(__errno())';
-// If you use a multi-threaded environment, be sure you
-// redefine __errno() to return a thread specific pointer.
+// In a multi-threaded environment, __errno() must return a
+// thread specific pointer.
 
 // Documentation:
 // http://infocenter.arm.com/help/topic/com.arm.doc.dui0205g/DUI0205.pdf
@@ -1055,24 +1056,18 @@ __posix_readlink (const char* path, char* buf, size_t bufsize)
 
 // ----------------------------------------------------------------------------
 
-extern "C" [[noreturn]] void
-_Exit (int code)
+extern "C"
 {
-  trace_printf ("%s(%d)\n", __func__, code);
+  void
+  initialise_monitor_handles (void);
+}
 
-  trace_flush ();
+// ----------------------------------------------------------------------------
 
-#if defined(DEBUG)
-#if defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
-  if ((CoreDebug->DHCSR & CoreDebug_DHCSR_C_DEBUGEN_Msk) != 0)
-    {
-      trace_dbg_bkpt ();
-    }
-#else
-  trace_dbg_bkpt ();
-#endif /* defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__) */
-#endif /* defined(DEBUG) */
-
+void
+__attribute__ ((noreturn,weak))
+os_terminate (int code __attribute__((unused)))
+{
   /* There is only one SWI for both _exit and _kill. For _exit, call
    the SWI with the second argument set to -1, an invalid value for
    signum, so that the SWI handler can distinguish the two calls.
@@ -1080,38 +1075,27 @@ _Exit (int code)
    arguments.  */
   report_exception (
       code == 0 ? ADP_Stopped_ApplicationExit : ADP_Stopped_RunTimeError);
+  /* NOTREACHED */
 }
-
-extern "C" void __attribute__((alias ("_Exit")))
-_exit (int code);
 
 // ----------------------------------------------------------------------------
 
-extern "C"
-{
-  void
-  initialise_monitor_handles (void);
-}
-
-// This is the standard default implementation for the routine to
-// process args. It returns a single empty arg.
-//
-// For semihosting applications, this is redefined to get the real
-// args from the debugger.
-//
-// You can redefine it to fetch some args in a non-volatile memory.
+// This is the semihosting implementation for the routine to
+// process args.
+// The entire command line is received from the host
+// and parsed into strings.
 
 #define ARGS_BUF_ARRAY_SIZE 80
 #define ARGV_BUF_ARRAY_SIZE 10
 
-typedef struct
+typedef struct command_line_block_s
 {
-  char* pCommandLine;
+  char* command_line;
   int size;
-} CommandLineBlock;
+} command_line_block_t;
 
 void
-os_initialize_args (int* p_argc, char*** p_argv)
+os_startup_initialize_args (int* p_argc, char*** p_argv)
 {
   // Array of chars to receive the command line from the host.
   static char args_buf[ARGS_BUF_ARRAY_SIZE];
@@ -1121,13 +1105,13 @@ os_initialize_args (int* p_argc, char*** p_argv)
   static char* argv_buf[ARGV_BUF_ARRAY_SIZE];
 
   int argc = 0;
-  int isInArgument = 0;
+  int is_in_argument = 0;
 
-  CommandLineBlock cmdBlock;
-  cmdBlock.pCommandLine = args_buf;
-  cmdBlock.size = sizeof(args_buf) - 1;
+  command_line_block_t cmd_block;
+  cmd_block.command_line = args_buf;
+  cmd_block.size = sizeof(args_buf) - 1;
 
-  int ret = call_host (SEMIHOSTING_SYS_GET_CMDLINE, &cmdBlock);
+  int ret = call_host (SEMIHOSTING_SYS_GET_CMDLINE, &cmd_block);
   if (ret == 0)
     {
       // In case the host send more than we can chew, limit the
@@ -1135,14 +1119,14 @@ os_initialize_args (int* p_argc, char*** p_argv)
       args_buf[ARGS_BUF_ARRAY_SIZE - 1] = '\0';
 
       // The command line is a null terminated string.
-      char* p = cmdBlock.pCommandLine;
+      char* p = cmd_block.command_line;
 
       int delim = '\0';
       int ch;
 
       while ((ch = *p) != '\0')
         {
-          if (isInArgument == 0)
+          if (is_in_argument == 0)
             {
               if (!isblank (ch))
                 {
@@ -1160,7 +1144,7 @@ os_initialize_args (int* p_argc, char*** p_argv)
                     }
                   // Remember the arg beginning address.
                   argv_buf[argc++] = p;
-                  isInArgument = 1;
+                  is_in_argument = 1;
                 }
             }
           else if (delim != '\0')
@@ -1169,14 +1153,14 @@ os_initialize_args (int* p_argc, char*** p_argv)
                 {
                   delim = '\0';
                   *p = '\0';
-                  isInArgument = 0;
+                  is_in_argument = 0;
                 }
             }
           else if (isblank (ch))
             {
               delim = '\0';
               *p = '\0';
-              isInArgument = 0;
+              is_in_argument = 0;
             }
           ++p;
         }

@@ -60,7 +60,7 @@ namespace os
      * @headerfile os.h <cmsis-plus/rtos/os.h>
      * @ingroup cmsis-plus-rtos-mempool
      */
-    class memory_pool : public internal::object_named
+    class memory_pool : public internal::object_named_system
     {
     public:
 
@@ -103,23 +103,18 @@ namespace os
         /**
          * @brief Construct a memory pool attributes object instance.
          * @par Parameters
-         *  None
+         *  None.
          */
         constexpr
         attributes ();
 
-        /**
-         * @cond ignore
-         */
+        // The rule of five.
         attributes (const attributes&) = default;
         attributes (attributes&&) = default;
         attributes&
         operator= (const attributes&) = default;
         attributes&
         operator= (attributes&&) = default;
-        /**
-         * @endcond
-         */
 
         /**
          * @brief Destruct the memory pool attributes object instance.
@@ -231,18 +226,27 @@ namespace os
                        initializer,
                    const allocator_type& allocator = allocator_type ());
 
+    protected:
+
       /**
        * @cond ignore
        */
-
-    protected:
 
       // Internal constructors, used from templates.
       memory_pool ();
       memory_pool (const char* name);
 
+      /**
+       * @endcond
+       */
+
     public:
 
+      /**
+       * @cond ignore
+       */
+
+      // The rule of five.
       memory_pool (const memory_pool&) = delete;
       memory_pool (memory_pool&&) = delete;
       memory_pool&
@@ -293,7 +297,7 @@ namespace os
       /**
        * @brief Allocate a memory block.
        * @par Parameters
-       *  None
+       *  None.
        * @return Pointer to memory block, or `nullptr` if interrupted.
        */
       void*
@@ -302,7 +306,7 @@ namespace os
       /**
        * @brief Try to allocate a memory block.
        * @par Parameters
-       *  None
+       *  None.
        * @return Pointer to memory block, or `nullptr` if no memory available.
        */
       void*
@@ -328,7 +332,7 @@ namespace os
       /**
        * @brief Get memory pool capacity.
        * @par Parameters
-       *  None
+       *  None.
        * @return The max number of blocks in the pool.
        */
       std::size_t
@@ -337,7 +341,7 @@ namespace os
       /**
        * @brief Get blocks count.
        * @par Parameters
-       *  None
+       *  None.
        * @return The number of blocks used from the queue.
        */
       std::size_t
@@ -346,7 +350,7 @@ namespace os
       /**
        * @brief Get block size.
        * @par Parameters
-       *  None
+       *  None.
        * @return The block size, in bytes.
        */
       std::size_t
@@ -365,7 +369,7 @@ namespace os
       /**
        * @brief Check if the memory pool is full.
        * @par Parameters
-       *  None
+       *  None.
        * @retval true All memory blocks are allocated.
        * @retval false There are still memory blocks that can be allocated.
        */
@@ -375,7 +379,7 @@ namespace os
       /**
        * @brief Reset the memory pool.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The memory pool was reset.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
        */
@@ -385,7 +389,7 @@ namespace os
       /**
        * @brief Get the pool storage address.
        * @par Parameters
-       *  None
+       *  None.
        * @return Pointer to storage.
        */
       void*
@@ -422,7 +426,9 @@ namespace os
       /**
        * @brief Internal initialisation.
        * @par Parameters
-       *  None
+       *  None.
+       * @returns
+       *  Nothing.
        */
       void
       internal_init_ (void);
@@ -430,7 +436,7 @@ namespace os
       /**
        * @brief Internal function used to get the first linked block.
        * @par Parameters
-       *  None
+       *  None.
        * @return Pointer to block or `nullptr` if no more blocks available.
        */
       void*
@@ -580,6 +586,7 @@ namespace os
          * @cond ignore
          */
 
+        // The rule of five.
         memory_pool_allocated (const memory_pool_allocated&) = delete;
         memory_pool_allocated (memory_pool_allocated&&) = delete;
         memory_pool_allocated&
@@ -659,6 +666,7 @@ namespace os
          * @cond ignore
          */
 
+        // The rule of five.
         memory_pool_typed (const memory_pool_typed&) = delete;
         memory_pool_typed (memory_pool_typed&&) = delete;
         memory_pool_typed&
@@ -690,7 +698,7 @@ namespace os
         /**
          * @brief Allocate a memory block.
          * @par Parameters
-         *  None
+         *  None.
          * @return Pointer to memory block, or `nullptr` if interrupted.
          */
         value_type*
@@ -699,7 +707,7 @@ namespace os
         /**
          * @brief Allocate a memory block.
          * @par Parameters
-         *  None
+         *  None.
          * @return Pointer to memory block, or `nullptr` if no memory available.
          */
         value_type*
@@ -716,7 +724,7 @@ namespace os
         /**
          * @brief Free the memory block.
          * @par Parameters
-         *  None
+         *  None.
          * @retval result::ok The memory block was released.
          * @retval EINVAL The block does not belong to the memory pool.
          */
@@ -738,7 +746,7 @@ namespace os
      * @ingroup cmsis-plus-rtos-mempool
      */
     template<typename T, std::size_t N>
-      class memory_pool_static : public memory_pool
+      class memory_pool_inclusive : public memory_pool
       {
       public:
 
@@ -761,26 +769,27 @@ namespace os
          * @brief Construct a memory pool object instance.
          * @param [in] attr Reference to attributes.
          */
-        memory_pool_static (const attributes& attr = initializer);
+        memory_pool_inclusive (const attributes& attr = initializer);
 
         /**
          * @brief Construct a named memory pool object instance.
          * @param [in] name Pointer to name.
          * @param [in] attr Reference to attributes.
          */
-        memory_pool_static (const char* name, const attributes& attr =
-                                initializer);
+        memory_pool_inclusive (const char* name, const attributes& attr =
+                                   initializer);
 
         /**
          * @cond ignore
          */
 
-        memory_pool_static (const memory_pool_static&) = delete;
-        memory_pool_static (memory_pool_static&&) = delete;
-        memory_pool_static&
-        operator= (const memory_pool_static&) = delete;
-        memory_pool_static&
-        operator= (memory_pool_static&&) = delete;
+        // The rule of five.
+        memory_pool_inclusive (const memory_pool_inclusive&) = delete;
+        memory_pool_inclusive (memory_pool_inclusive&&) = delete;
+        memory_pool_inclusive&
+        operator= (const memory_pool_inclusive&) = delete;
+        memory_pool_inclusive&
+        operator= (memory_pool_inclusive&&) = delete;
 
         /**
          * @endcond
@@ -790,7 +799,7 @@ namespace os
          * @brief Destruct the memory pool object instance.
          */
         virtual
-        ~memory_pool_static ();
+        ~memory_pool_inclusive ();
 
         /**
          * @}
@@ -827,7 +836,7 @@ namespace os
         /**
          * @brief Allocate a memory block.
          * @par Parameters
-         *  None
+         *  None.
          * @return Pointer to memory block, or `nullptr` if interrupted.
          */
         value_type*
@@ -836,7 +845,7 @@ namespace os
         /**
          * @brief Allocate a memory block.
          * @par Parameters
-         *  None
+         *  None.
          * @return Pointer to memory block, or `nullptr` if no memory available.
          */
         value_type*
@@ -853,7 +862,7 @@ namespace os
         /**
          * @brief Free the memory block.
          * @par Parameters
-         *  None
+         *  None.
          * @retval result::ok The memory block was released.
          * @retval EINVAL The block does not belong to the memory pool.
          */
@@ -1289,7 +1298,8 @@ namespace os
      * @warning Cannot be invoked from Interrupt Service Routines.
      */
     template<typename T, std::size_t N>
-      memory_pool_static<T, N>::memory_pool_static (const attributes& attr)
+      memory_pool_inclusive<T, N>::memory_pool_inclusive (
+          const attributes& attr)
       {
         internal_construct_ (blocks, sizeof(T), attr, &arena_, sizeof(arena_));
       }
@@ -1321,8 +1331,8 @@ namespace os
      * @warning Cannot be invoked from Interrupt Service Routines.
      */
     template<typename T, std::size_t N>
-      memory_pool_static<T, N>::memory_pool_static (const char* name,
-                                                    const attributes& attr) :
+      memory_pool_inclusive<T, N>::memory_pool_inclusive (
+          const char* name, const attributes& attr) :
           memory_pool
             { name }
       {
@@ -1343,7 +1353,7 @@ namespace os
      * @warning Cannot be invoked from Interrupt Service Routines.
      */
     template<typename T, std::size_t N>
-      memory_pool_static<T, N>::~memory_pool_static ()
+      memory_pool_inclusive<T, N>::~memory_pool_inclusive ()
       {
         ;
       }
@@ -1356,8 +1366,8 @@ namespace os
      * @see memory_pool::alloc().
      */
     template<typename T, std::size_t N>
-      inline typename memory_pool_static<T, N>::value_type*
-      memory_pool_static<T, N>::alloc (void)
+      inline typename memory_pool_inclusive<T, N>::value_type*
+      memory_pool_inclusive<T, N>::alloc (void)
       {
         return static_cast<value_type*> (memory_pool::alloc ());
       }
@@ -1370,8 +1380,8 @@ namespace os
      * @see memory_pool::try_alloc().
      */
     template<typename T, std::size_t N>
-      inline typename memory_pool_static<T, N>::value_type*
-      memory_pool_static<T, N>::try_alloc (void)
+      inline typename memory_pool_inclusive<T, N>::value_type*
+      memory_pool_inclusive<T, N>::try_alloc (void)
       {
         return static_cast<value_type*> (memory_pool::try_alloc ());
       }
@@ -1384,8 +1394,8 @@ namespace os
      * @see memory_pool::timed_alloc().
      */
     template<typename T, std::size_t N>
-      inline typename memory_pool_static<T, N>::value_type*
-      memory_pool_static<T, N>::timed_alloc (clock::duration_t timeout)
+      inline typename memory_pool_inclusive<T, N>::value_type*
+      memory_pool_inclusive<T, N>::timed_alloc (clock::duration_t timeout)
       {
         return static_cast<value_type*> (memory_pool::timed_alloc (timeout));
       }
@@ -1399,7 +1409,7 @@ namespace os
      */
     template<typename T, std::size_t N>
       inline result_t
-      memory_pool_static<T, N>::free (value_type* block)
+      memory_pool_inclusive<T, N>::free (value_type* block)
       {
         return memory_pool::free (block);
       }

@@ -55,7 +55,7 @@ namespace os
      * @headerfile os.h <cmsis-plus/rtos/os.h>
      * @ingroup cmsis-plus-rtos-semaphore
      */
-    class semaphore : public internal::object_named
+    class semaphore : public internal::object_named_system
     {
     public:
 
@@ -95,32 +95,33 @@ namespace os
         /**
          * @brief Construct a semaphore attributes object instance.
          * @par Parameters
-         *  None
+         *  None.
          */
         constexpr
         attributes ();
+
+      protected:
 
         /**
          * @cond ignore
          */
 
-      protected:
-
         constexpr
         attributes (count_t max_value, count_t initial_value = 0);
 
+        /**
+         * @endcond
+         */
+
       public:
 
+        // The rule of five.
         attributes (const attributes&) = default;
         attributes (attributes&&) = default;
         attributes&
         operator= (const attributes&) = default;
         attributes&
         operator= (attributes&&) = default;
-
-        /**
-         * @endcond
-         */
 
         /**
          * @brief Destruct the semaphore attributes object instance.
@@ -180,20 +181,13 @@ namespace os
         constexpr
         attributes_binary (count_t initial_value);
 
-        /**
-         * @cond ignore
-         */
-
+        // The rule of five.
         attributes_binary (const attributes_binary&) = default;
         attributes_binary (attributes_binary&&) = default;
         attributes_binary&
         operator= (const attributes_binary&) = default;
         attributes_binary&
         operator= (attributes_binary&&) = default;
-
-        /**
-         * @endcond
-         */
 
         /**
          * @brief Destruct the semaphore attributes object instance.
@@ -236,20 +230,13 @@ namespace os
         constexpr
         attributes_counting (count_t max_value, count_t initial_value);
 
-        /**
-         * @cond ignore
-         */
-
+        // The rule of five.
         attributes_counting (const attributes_counting&) = default;
         attributes_counting (attributes_counting&&) = default;
         attributes_counting&
         operator= (const attributes_counting&) = default;
         attributes_counting&
         operator= (attributes_counting&&) = default;
-
-        /**
-         * @endcond
-         */
 
         /**
          * @brief Destruct the semaphore attributes object instance.
@@ -281,18 +268,27 @@ namespace os
        */
       semaphore (const char* name, const attributes& attr = initializer_binary);
 
+    protected:
+
       /**
        * @cond ignore
        */
-
-    protected:
 
       semaphore (const char* name, const count_t max_value,
                  const count_t initial_value, const attributes& attr =
                      initializer_binary);
 
+      /**
+       * @endcond
+       */
+
     public:
 
+      /**
+       * @cond ignore
+       */
+
+      // The rule of five.
       semaphore (const semaphore&) = delete;
       semaphore (semaphore&&) = delete;
       semaphore&
@@ -340,7 +336,7 @@ namespace os
       /**
        * @brief Post (unlock) the semaphore.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The semaphore was posted.
        * @retval EAGAIN The maximum count value was exceeded.
        * @retval ENOTRECOVERABLE The semaphore could not be posted
@@ -352,7 +348,7 @@ namespace os
       /**
        * @brief Lock the semaphore, possibly waiting.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The calling process successfully
        *  performed the semaphore lock operation.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
@@ -366,7 +362,7 @@ namespace os
       /**
        * @brief Try to lock the semaphore.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The calling process successfully
        *  performed the semaphore lock operation.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
@@ -398,7 +394,7 @@ namespace os
       /**
        * @brief Get the semaphore count value.
        * @par Parameters
-       *  None
+       *  None.
        * @return The semaphore count value.
        */
       count_t
@@ -407,7 +403,7 @@ namespace os
       /**
        * @brief Reset the semaphore.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The semaphore was reset.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
        */
@@ -417,7 +413,7 @@ namespace os
       /**
        * @brief Get the semaphore initial count value.
        * @par Parameters
-       *  None
+       *  None.
        * @return The numeric value set from attributes.
        */
       count_t
@@ -426,7 +422,7 @@ namespace os
       /**
        * @brief Get the semaphore maximum count value.
        * @par Parameters
-       *  None
+       *  None.
        * @return The numeric value set from attributes.
        */
       count_t
@@ -450,7 +446,7 @@ namespace os
       /**
        * @brief Internal initialisation.
        * @par Parameters
-       *  None
+       *  None.
        */
       void
       internal_init_ (void);
@@ -540,6 +536,7 @@ namespace os
        * @cond ignore
        */
 
+      // The rule of five.
       semaphore_binary (const semaphore_binary&) = delete;
       semaphore_binary (semaphore_binary&&) = delete;
       semaphore_binary&
@@ -615,6 +612,7 @@ namespace os
        * @cond ignore
        */
 
+      // The rule of five.
       semaphore_counting (const semaphore_counting&) = delete;
       semaphore_counting (semaphore_counting&&) = delete;
       semaphore_counting&
@@ -675,6 +673,10 @@ namespace os
       ;
     }
 
+    /**
+     * @cond ignore
+     */
+
     constexpr
     semaphore::attributes::attributes (count_t max_value, count_t initial_value) :
         sm_max_value (max_value), //
@@ -683,8 +685,11 @@ namespace os
       ;
     }
 
-    // ========================================================================
+    /**
+     * @endcond
+     */
 
+    // ========================================================================
     constexpr
     semaphore::attributes_binary::attributes_binary (count_t initial_value) :
         attributes

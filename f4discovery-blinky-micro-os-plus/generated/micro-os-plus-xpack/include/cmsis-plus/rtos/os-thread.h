@@ -41,7 +41,9 @@
 #include <cmsis-plus/rtos/os-clocks.h>
 #include <cmsis-plus/rtos/internal/os-flags.h>
 
-#include <cmsis-plus/diag/trace.h>
+#if !defined(__ARM_EABI__)
+#include <memory>
+#endif
 
 // ----------------------------------------------------------------------------
 
@@ -73,7 +75,7 @@ namespace os
       /**
        * @brief Get the current running thread.
        * @par Parameters
-       *  None
+       *  None.
        * @return Reference to the current running thread.
        */
       thread&
@@ -93,7 +95,7 @@ namespace os
       /**
        * @brief Yield execution to the next ready thread.
        * @par Parameters
-       *  None
+       *  None.
        * @par Returns
        *  Nothing.
        */
@@ -103,7 +105,7 @@ namespace os
       /**
        * @brief Suspend the current running thread to wait for an event.
        * @par Parameters
-       *  None
+       *  None.
        * @par Returns
        *  Nothing.
        */
@@ -230,7 +232,7 @@ namespace os
      * @headerfile os.h <cmsis-plus/rtos/os.h>
      * @ingroup cmsis-plus-rtos-thread
      */
-    class thread : public internal::object_named
+    class thread : public internal::object_named_system
     {
     public:
 
@@ -436,6 +438,7 @@ namespace os
          * @cond ignore
          */
 
+        // The rule of five.
         stack (const stack&) = delete;
         stack (stack&&) = delete;
         stack&
@@ -466,7 +469,7 @@ namespace os
         /**
          * @brief Clear the stack pointer and size.
          * @par Parameters
-         *  None
+         *  None.
          * @par Returns
          *  Nothing
          */
@@ -478,7 +481,9 @@ namespace os
          * @param [in] address Bottom stack address.
          * @param [in] size_bytes Reserved stack size, in bytes.
          * @par Parameters
-         *  None
+         *  None.
+         * @par Returns
+         *  Nothing
          */
         void
         set (stack::element_t* address, std::size_t size_bytes);
@@ -486,9 +491,9 @@ namespace os
         /**
          * @brief Align the pointers and initialise to a known pattern.
          * @par Parameters
-         *  None
+         *  None.
          * @par Returns
-         *  Nothing
+         *  Nothing.
          */
         void
         initialize (void);
@@ -496,7 +501,7 @@ namespace os
         /**
          * @brief Get the stack lowest reserved address.
          * @par Parameters
-         *  None
+         *  None.
          * @return  The address of the stack reserved area.
          */
         stack::element_t*
@@ -505,7 +510,7 @@ namespace os
         /**
          * @brief Get the top stack address.
          * @par Parameters
-         *  None
+         *  None.
          * @return The address after the last stack element.
          */
         stack::element_t*
@@ -514,7 +519,7 @@ namespace os
         /**
          * @brief Get the stack size.
          * @par Parameters
-         *  None
+         *  None.
          * @return  The stack size in bytes.
          */
         std::size_t
@@ -523,7 +528,7 @@ namespace os
         /**
          * @brief Check if bottom magic word is still there.
          * @par Parameters
-         *  None
+         *  None.
          * @retval true  The magic word is still there.
          * @retval false  The magic word was overwritten.
          */
@@ -533,7 +538,7 @@ namespace os
         /**
          * @brief Check if top magic word is still there.
          * @par Parameters
-         *  None
+         *  None.
          * @retval true  The magic word is still there.
          * @retval false  The magic word was overwritten.
          */
@@ -542,6 +547,8 @@ namespace os
 
         /**
          * @brief Compute how much available stack remains.
+         * @par Parameters
+         *  None.
          * @return Number of available bytes.
          */
         std::size_t
@@ -561,7 +568,7 @@ namespace os
         /**
          * @brief Get the min stack size.
          * @par Parameters
-         *  None
+         *  None.
          * @return  The min stack size in bytes.
          */
         static std::size_t
@@ -578,7 +585,7 @@ namespace os
         /**
          * @brief Get the default stack size.
          * @par Parameters
-         *  None
+         *  None.
          * @return  The default stack size in bytes.
          */
         static std::size_t
@@ -640,6 +647,7 @@ namespace os
          * @cond ignore
          */
 
+        // The rule of five.
         context (const context&) = delete;
         context (context&&) = delete;
         context&
@@ -667,6 +675,12 @@ namespace os
          * @{
          */
 
+        /**
+         * @brief Get the associated stack.
+         * @par Parameters
+         *  None.
+         * @return Reference to stack object.
+         */
         thread::stack&
         stack (void);
 
@@ -764,25 +778,18 @@ namespace os
         /**
          * @brief Construct a thread attributes object instance.
          * @par Parameters
-         *  None
+         *  None.
          */
         constexpr
         attributes ();
 
-        /**
-         * @cond ignore
-         */
-
+        // The rule of five.
         attributes (const attributes&) = default;
         attributes (attributes&&) = default;
         attributes&
         operator= (const attributes&) = default;
         attributes&
         operator= (attributes&&) = default;
-
-        /**
-         * @endcond
-         */
 
         /**
          * @brief Destruct the thread attributes object instance.
@@ -860,15 +867,15 @@ namespace os
         /**
          * @brief Construct a thread attributes object instance.
          * @par Parameters
-         *  None
+         *  None.
          */
-
         statistics () = default;
 
         /**
          * @cond ignore
          */
 
+        // The rule of five.
         statistics (const statistics&) = delete;
         statistics (statistics&&) = delete;
         statistics&
@@ -900,6 +907,8 @@ namespace os
 
         /**
          * @brief Get the number of thread context switches.
+         * @par Parameters
+         *  None.
          * @return A long integer with the number of times the thread
          * was scheduled for execution.
          */
@@ -912,6 +921,8 @@ namespace os
 
         /**
          * @brief Get the thread execution time.
+         * @par Parameters
+         *  None.
          * @return A long integer with accumulated number of CPU cycles.
          */
         rtos::statistics::duration_t
@@ -990,17 +1001,27 @@ namespace os
               const attributes& attr = initializer,
               const allocator_type& allocator = allocator_type ());
 
+    protected:
+
       /**
        * @cond ignore
        */
-    protected:
 
       // Internal constructors, used from templates.
       thread ();
       thread (const char* name);
 
+      /**
+       * @endcond
+       */
+
     public:
 
+      /**
+       * @cond ignore
+       */
+
+      // The rule of five.
       thread (const thread&) = delete;
       thread (thread&&) = delete;
       thread&
@@ -1059,7 +1080,7 @@ namespace os
       /**
        * @brief Detach a thread.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The thread was detached.
        * @retval EPERM Cannot be invoked from an Interrupt Service Routines.
        */
@@ -1136,7 +1157,7 @@ namespace os
       /**
        * @brief Check if interrupted.
        * @par Parameters
-       *  None
+       *  None.
        * @retval true The thread was interrupted.
        * @retval false The thread was not interrupted.
        */
@@ -1154,7 +1175,7 @@ namespace os
       /**
        * @brief Get thread scheduler state.
        * @par Parameters
-       *  None
+       *  None.
        * @return Thread scheduler state.
        */
       state_t
@@ -1163,7 +1184,7 @@ namespace os
       /**
        * @brief Resume the thread.
        * @par Parameters
-       *  None
+       *  None.
        * @return  Nothing.
        */
       void
@@ -1181,7 +1202,7 @@ namespace os
       /**
        * @brief Get the user storage.
        * @par Parameters
-       *  None
+       *  None.
        * @return The address of the thread user storage.
        */
       os_thread_user_storage_t*
@@ -1211,7 +1232,7 @@ namespace os
       /**
        * @brief Force thread termination.
        * @par Parameters
-       *  None
+       *  None.
        * @retval result::ok The tread was terminated.
        */
       result_t
@@ -1220,7 +1241,7 @@ namespace os
       /**
        * @brief Get the thread context stack.
        * @par Parameters
-       *  None
+       *  None.
        * @return A reference to the context stack object instance.
        */
       class thread::stack&
@@ -1357,8 +1378,9 @@ namespace os
       /**
        * @brief Suspend this thread and wait for an event.
        * @par Parameters
-       *  None
-       * @return  Nothing.
+       *  None.
+       * @par Returns
+       *  Nothing.
        */
       void
       internal_suspend_ (void);
@@ -1375,7 +1397,8 @@ namespace os
       /**
        * @brief Invoke terminating thread function.
        * @param [in] thread The static `this`.
-       * @return  Nothing.
+       * @par Returns
+       *  Nothing.
        */
       [[noreturn]]
       static void
@@ -1479,27 +1502,27 @@ namespace os
       /**
        * @brief The actual destructor, also called from exit() and kill().
        * @par Parameters
-       *  None
+       *  None.
        * @par Returns
-       *  Nothing
+       *  Nothing.
        */
       virtual void
       internal_destroy_ (void);
 
       /**
        * @par Parameters
-       *  None
+       *  None.
        * @par Returns
-       *  Nothing
+       *  Nothing.
        */
       void
       internal_relink_running_ (void);
 
       /**
        * @par Parameters
-       *  None
+       *  None.
        * @par Returns
-       *  Nothing
+       *  Nothing.
        */
       void
       internal_check_stack_ (void);
@@ -1689,6 +1712,7 @@ namespace os
          * @cond ignore
          */
 
+        // The rule of five.
         thread_allocated (const thread_allocated&) = delete;
         thread_allocated (thread_allocated&&) = delete;
         thread_allocated&
@@ -1740,7 +1764,7 @@ namespace os
      * @tparam N Size of statically allocated stack in bytes.
      */
     template<std::size_t N = port::stack::default_size_bytes>
-      class thread_static : public thread
+      class thread_inclusive : public thread
       {
       public:
 
@@ -1760,8 +1784,8 @@ namespace os
          * @param [in] args Pointer to thread function arguments.
          * @param [in] attr Reference to attributes.
          */
-        thread_static (func_t function, func_args_t args,
-                       const attributes& attr = initializer);
+        thread_inclusive (func_t function, func_args_t args,
+                          const attributes& attr = initializer);
 
         /**
          * @brief Construct a named thread object instance.
@@ -1770,19 +1794,20 @@ namespace os
          * @param [in] args Pointer to thread function arguments.
          * @param [in] attr Reference to attributes.
          */
-        thread_static (const char* name, func_t function, func_args_t args,
-                       const attributes& attr = initializer);
+        thread_inclusive (const char* name, func_t function, func_args_t args,
+                          const attributes& attr = initializer);
 
         /**
          * @cond ignore
          */
 
-        thread_static (const thread_static&) = delete;
-        thread_static (thread_static&&) = delete;
-        thread_static&
-        operator= (const thread_static&) = delete;
-        thread_static&
-        operator= (thread_static&&) = delete;
+        // The rule of five.
+        thread_inclusive (const thread_inclusive&) = delete;
+        thread_inclusive (thread_inclusive&&) = delete;
+        thread_inclusive&
+        operator= (const thread_inclusive&) = delete;
+        thread_inclusive&
+        operator= (thread_inclusive&&) = delete;
 
         /**
          * @endcond
@@ -1792,7 +1817,7 @@ namespace os
          * @brief Destruct the thread object instance.
          */
         virtual
-        ~thread_static ();
+        ~thread_inclusive ();
 
         /**
          * @}
@@ -2337,7 +2362,7 @@ namespace os
             }
 
           // Simple test to verify that the old thread
-          // did not overflow the stack.
+          // did not underflow the stack.
           assert(stack ().check_bottom_magic ());
         }
     }
@@ -2633,9 +2658,9 @@ namespace os
      */
     template<std::size_t N>
       inline
-      thread_static<N>::thread_static (func_t function, func_args_t args,
-                                       const attributes& attr) :
-          thread_static<N>
+      thread_inclusive<N>::thread_inclusive (func_t function, func_args_t args,
+                                             const attributes& attr) :
+          thread_inclusive<N>
             { nullptr, function, args, attr }
       {
         ;
@@ -2688,8 +2713,9 @@ namespace os
      * @warning Cannot be invoked from Interrupt Service Routines.
      */
     template<std::size_t N>
-      thread_static<N>::thread_static (const char* name, func_t function,
-                                       func_args_t args, const attributes& attr) :
+      thread_inclusive<N>::thread_inclusive (const char* name, func_t function,
+                                             func_args_t args,
+                                             const attributes& attr) :
           thread
             { name }
       {
@@ -2711,7 +2737,7 @@ namespace os
      * @warning Cannot be invoked from Interrupt Service Routines.
      */
     template<std::size_t N>
-      thread_static<N>::~thread_static ()
+      thread_inclusive<N>::~thread_inclusive ()
       {
 #if defined(OS_TRACE_RTOS_THREAD)
         trace::printf ("%s @%p %s\n", __func__, this, name ());
