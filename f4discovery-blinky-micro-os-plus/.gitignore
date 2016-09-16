@@ -1,5 +1,5 @@
 .DS_Store
 .settings/
-Debug/
-Release/
-.vscode/
+Debug
+Release
+
