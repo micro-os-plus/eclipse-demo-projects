@@ -6,6 +6,7 @@ xpacks_repo_folder="$HOME/.xpacks"
 
 do_process_args() {
   use_development_tree=""
+  writable=""
 
   while [ $# -gt 0 ]
   do
@@ -16,10 +17,15 @@ do_process_args() {
         shift 2
         ;;
 
+      --read-write)
+        writable="y"
+        shift 1
+        ;;
+
       --help)
         echo "Update xPacks."
         echo "Usage:"
-        echo "    bash $(basename $0) [--dev-tree absolute-path] [--help]"
+        echo "    bash $(basename $0) [--read-write] [--dev-tree absolute-path] [--help]"
         echo
         exit 1
         ;;
@@ -67,9 +73,16 @@ do_create_dest() {
 }
 
 do_protect() {
-  echo
-  echo "Changing mode to R/O..."
-  chmod -R -w "${generated_folder}"
+  if [ "$writable" == "y" ]
+  then
+    echo
+    echo "Changing mode to R/W..."
+    chmod -R +w "${generated_folder}"
+  else
+    echo
+    echo "Changing mode to R/O..."
+    chmod -R -w "${generated_folder}"
+  fi
 }
 
 do_list() {
