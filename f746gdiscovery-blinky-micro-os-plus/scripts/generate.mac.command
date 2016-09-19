@@ -2,6 +2,10 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# -----------------------------------------------------------------------------
+# Wrapper for macOS; execute it by double clicking in Finder.
+# -----------------------------------------------------------------------------
+
 script=$0
 if [[ "${script}" != /* ]]
 then
@@ -11,4 +15,14 @@ fi
 
 parent="$(dirname ${script})"
 
-bash "$parent/generate.sh" --dev-tree "/Users/ilg/My Files/MacBookPro Projects/uOS/micro-os-plus-iii-tree.git"
+# -----------------------------------------------------------------------------
+
+if [ "$USER" == "ilg" ]
+then
+  # For 'ilg' use the development tree.
+  bash "$parent/generate.sh" --dev-tree "/Users/ilg/My Files/MacBookPro Projects/uOS/micro-os-plus-iii-tree.git"
+else
+  bash "$parent/generate.sh"
+fi
+
+# -----------------------------------------------------------------------------

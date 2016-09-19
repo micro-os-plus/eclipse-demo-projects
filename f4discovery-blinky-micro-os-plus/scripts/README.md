@@ -12,6 +12,6 @@ The resulting folder is marked as read/only.
 
 This script requires the helper script from parent `scripts/generate-helper.sh`.
 
-## generate.command
+## generate.mac.command
 
 Wrapper for macOS, using the development tree as source; update the absolute address of the development tree is cloned and execute it by double clicking in Finder.
