@@ -123,9 +123,16 @@ do_create_include() {
   mkdir -p "${dest_folder}/include"
 }
 
+
 do_create_src() {
-  echo "Creating '${dest_folder}/src'..."
-  mkdir -p "${dest_folder}/src"
+  if [ $# -ge 1 ]
+  then
+    echo "Creating '${1}'..."
+    mkdir -p "${1}"
+  else
+    echo "Creating '${dest_folder}/src'..."
+    mkdir -p "${dest_folder}/src"
+  fi
 }
 
 # -----------------------------------------------------------------------------
@@ -392,9 +399,24 @@ do_add_stm32_cmsis_xpack() {
   cp -r "${pack_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Include/${device}.h" "${dest_folder}/include"
   cp -r "${pack_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Include/system_stm32${family}xx.h" "${dest_folder}/include"
 
-  do_create_src
-  cp -r "${pack_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Source/Templates/system_stm32${family}xx.c" "${dest_folder}/src"
-  cp -r "${pack_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Source/Templates/gcc/vectors_${device}.c" "${dest_folder}/src"
+  do_create_src "${dest_folder}/src/startup"
+  cp -r "${pack_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Source/Templates/system_stm32${family}xx.c" "${dest_folder}/src/startup"
+  cp -r "${pack_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Source/Templates/gcc/vectors_${device}.c" "${dest_folder}/src/startup"
+}
+
+# -----------------------------------------------------------------------------
+
+# $1 = device name suffix (like "stm32f407xx")
+do_add_stm32_cmsis_drivers_xpack() {
+  local device=$(echo $1 | tr '[:upper:]' '[:lower:]')
+  local family=${device:5:2}
+  local family_uc=$(echo ${family} | tr '[:lower:]' '[:upper:]')
+
+  do_prepare_dest "stm32${family}-cmsis-xpack"
+  do_select_pack_folder "ilg/stm32${family}-cmsis.git" "ilg/stm/stm32${family}-cmsis-xpack"
+
+  do_create_src "${dest_folder}/src/drivers"
+  cp -r "${pack_folder}/CMSIS/Driver/"* "${dest_folder}/src/drivers"
 }
 
 # -----------------------------------------------------------------------------
@@ -448,7 +470,10 @@ do_add_stm32_cmsis_cube() {
   cp -r "${cube_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Include/${device}.h" "${dest_folder}/include"
   cp -r "${cube_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Include/system_stm32${family}xx.h" "${dest_folder}/include"
 
-  do_create_src
-  cp -r "${cube_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Source/Templates/system_stm32${family}xx.c" "${dest_folder}/src"
-  do_create_vectors "${cube_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Source/Templates/arm/startup_${device}.s" >"${dest_folder}/src/vectors_${device}.c"
+  do_create_src "${dest_folder}/src/startup"
+  cp -r "${cube_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Source/Templates/system_stm32${family}xx.c" "${dest_folder}/src/startup"
+  do_create_vectors "${cube_folder}/Drivers/CMSIS/Device/ST/STM32${family_uc}xx/Source/Templates/arm/startup_${device}.s" >"${dest_folder}/src/startup/vectors_${device}.c"
 }
+
+# -----------------------------------------------------------------------------
+
