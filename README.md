@@ -6,19 +6,19 @@
 
 4 LEDS blinky project using the STM32F4DISCOVERY board (Cortex-M4, 1MB flash, 128KB RAM) and µOS++.
 
-All code supplied by xPacks.
+All dependencies supplied by xPacks.
 
 ### f746gdiscovery-blinky-micro-os-plus
 
 1 LED blinky project using the 32F746GDISCOVERY board (Cortex-M7, 1MB flash, 340KB RAM) and µOS++.
 
-All code supplied by xPacks.
+All dependencies supplied by xPacks.
 
 ### f0discovery-blinky-micro-os-plus
 
 2 LEDS blinky project using the STM32F0DISCOVERY board (Cortex-M0, 64KB flash, 8 KB RAM).
 
-Code supplied by xPacks and CubeMX.
+Dependencies supplied by xPacks and CubeMX.
 
 ## Prerequisites
 
@@ -46,13 +46,13 @@ $ bash scripts/generate.sh
 
 ## Keep xPacks up-to-date
 
-To update the content of the xPacks, in a terminal window, start the `update-xpacks-repo.sh` Bash script:
+To update the content of the xPacks to the latest versions, in a terminal window, start the `update-xpacks-repo.sh` Bash script:
 
 ```
 $ bash ~/.xpacks/ilg/scripts.git/update-xpacks-repo.sh
 ```
 
-On Mac you can double click the `update-xpacks-repo.command` in Finder.
+On Mac you can double click the `update-xpacks-repo.mac.command` in Finder.
 
 After updating xPacks, run the `generate.sh` script in each project, to update the project dependencies.
 
