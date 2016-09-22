@@ -20,6 +20,14 @@ All code supplied by xPacks.
 
 Code supplied by xPacks and CubeMX.
 
+## Prerequisites
+
+These projects have several dependencies to code available from xPacks. To satisfy these dependencies it is necessary to run some shell scripts.
+
+These scripts were created on macOS, and the ones suffixed with `.command` are specific to macOS; the `.sh` scripts should also be fine on GNU/Linux, Windows MSYS2, Git Shell, and on the new [Windows Subsystem for Linux](https://msdn.microsoft.com/commandline/wsl/about).
+
+For those who insist on native Windows, separate PowerShell scripts would be required, but considering Microsoft's move towards Linux, this would probably not be worth the effort. Anyway, if you manage to create them, please consider improving your karma and contribute them back to the community.
+
 ## How to use
 
 To use any of these projects, you need to:
@@ -28,7 +36,22 @@ To use any of these projects, you need to:
 ```
 $ git clone https://github.com/micro-os-plus/eclipse-demo-projects.git eclipse-demo-projects.git
 ```
-* in Eclipse, import the projects into your workspace, without copying
+* in each project, generate the code required to satisfy the dependencies; on macOS, double click the `scripts/generate.mac.command` in Finder; on other platforms, go to the project folder and run `scripts/generate.sh`;
+* in Eclipse, import the projects into your workspace, **without copying**
 * build
 * test the f4discovery-blinky-micro-os-plus on QEMU, it should blink the LEDs
-* in a terminal window, start `scripts/update-xpacks-repo.sh` (on Mac you can double click the `update-xpacks-repo.command` in Finder); this will allow to later run the individual `generate.sh` scripts.
+
+## Keep xPacks up-to-date
+
+To update the content of the xPacks, in a terminal window, start the `update-xpacks-repo.sh` Bash script:
+
+```
+$ bash ~/.xpacls/ilg/scripts.git/update-xpacks-repo.sh
+```
+
+On Mac you can double click the `update-xpacks-repo.command` in Finder.
+
+After updating xPacks, run the `scritps/generate.sh` in each project, to update the project dependencies.
+
+
+
