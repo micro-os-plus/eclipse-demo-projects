@@ -36,7 +36,10 @@ To use any of these projects, you need to:
 ```
 $ git clone https://github.com/micro-os-plus/eclipse-demo-projects.git eclipse-demo-projects.git
 ```
-* in each project, generate the code required to satisfy the dependencies; on macOS, double click the `scripts/generate.mac.command` in Finder; on other platforms, go to the project folder and run `scripts/generate.sh`;
+* in each project, generate the code required to satisfy the dependencies; on macOS, double click the `scripts/generate.mac.command` in Finder; on other platforms, go to the project folder and run 
+```
+$ bash scripts/generate.sh
+```
 * in Eclipse, import the projects into your workspace, **without copying**
 * build
 * test the f4discovery-blinky-micro-os-plus on QEMU, it should blink the LEDs
@@ -46,12 +49,13 @@ $ git clone https://github.com/micro-os-plus/eclipse-demo-projects.git eclipse-d
 To update the content of the xPacks, in a terminal window, start the `update-xpacks-repo.sh` Bash script:
 
 ```
-$ bash ~/.xpacls/ilg/scripts.git/update-xpacks-repo.sh
+$ bash ~/.xpacks/ilg/scripts.git/update-xpacks-repo.sh
 ```
 
 On Mac you can double click the `update-xpacks-repo.command` in Finder.
 
-After updating xPacks, run the `scritps/generate.sh` in each project, to update the project dependencies.
+After updating xPacks, run the `generate.sh` script in each project, to update the project dependencies.
+
 
 
 
