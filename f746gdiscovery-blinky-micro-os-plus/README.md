@@ -11,11 +11,43 @@ It demonstrates:
 
 This project **does not** demonstrate any µOS++ features, the only RTOS feature used is the system clock `sleep_for()`, to delay execution for a number of ticks.
 
-Until the XCDL utility will be available, the `generated` folder is created with the `scripts/generate.sh` script.
+## Preliminary
 
-## Build options
+The content of the xPacks is not part of the repository, and must be dynamically generated. Until the XCDL utility will be available, the `generated` folder should be created with the `scripts/generate.sh` script.
+
+```
+bash scripts/generate.sh
+```
+
+## Build details
+
+### Include folders
+
+- `include`
+- `cube-mx/Inc`
+- `generated/arm-cmsis/include/core`
+- `generated/micro-os-plus/include`
+- `generated/micro-os-plus-cortexm/include`
+- `generated/stm32f7-cmsis/include/stm32f746xx`
+- `generated/stm32f7-hal/include`
+
+### Source folders
+
+- `src`
+- `cube-mx/Src`
+- `generated/micro-os-plus/src`
+- `generated/micro-os-plus-cortexm/src`
+- `generated/stm32f7-cmsis/src/stm32f051x8`
+- `generated/stm32f7-hal/src`
+
+### Compile options
 
 The µOS++ code uses modern C++ features, and for this it is necessary to use a recent GCC version (v5.x or highrer) and to specify `-std=gnu++1y` in the GCC command line.
+
+### Additional settings
+
+- for `generated/stm32f7-hal/src`, to silence C warnings, use `-Wno-sign-conversion -Wno-padded -Wno-conversion -Wno-unused-parameter -Wno-bad-function-cast -Wno-sign-compare`
+
 
 ## Semihosting
 

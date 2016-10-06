@@ -62,7 +62,7 @@ do_add_micro_os_plus_iii_xpack
 
 # Add the 'stm32f4-cmsis' xPack.
 do_add_stm32_cmsis_xpack "stm32f407xx"
-# do_add_stm32_cmsis_drivers_xpack "stm32f407xx"
+# do_add_stm32_cmsis_drivers_xpack "f4"
 
 # Add the 'stm32f4-hal' xpack.
 do_add_stm32_hal_xpack "f4"

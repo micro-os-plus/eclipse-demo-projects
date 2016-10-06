@@ -20,8 +20,7 @@ parent="$(dirname ${script})"
 if [ "$USER" == "ilg" ]
 then
   # For 'ilg' use the development tree.
-  # bash "$parent/generate.sh" --dev-tree "/Users/ilg/My Files/MacBookPro Projects/uOS/micro-os-plus-iii-tree.git"
-  bash "$parent/generate.sh" --link
+  bash "$parent/generate.sh" --symlink
 else
   bash "$parent/generate.sh"
 fi
