@@ -51,8 +51,8 @@
 									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/arm-cmsis/include/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-cortexm/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii-cortexm/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-cmsis/include/stm32f407xx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-hal/include}&quot;"/>
 								</option>
@@ -70,8 +70,8 @@
 									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/arm-cmsis/include/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-cortexm/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii-cortexm/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-cmsis/include/stm32f407xx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-hal/include}&quot;"/>
 								</option>
@@ -89,8 +89,8 @@
 									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/arm-cmsis/include/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-cortexm/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii-cortexm/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-cmsis/include/stm32f407xx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-hal/include}&quot;"/>
 								</option>
@@ -201,8 +201,8 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cube-mx/Src"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus-cortexm/src"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus/src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus-iii-cortexm/src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus-iii/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32f4-cmsis/src/stm32f407xx"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32f4-hal/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>
@@ -274,15 +274,15 @@
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash.1424054064" name="Create flash image" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.createflash" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize.243433935" name="Print size" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.addtools.printsize" value="true" valueType="boolean"/>
 							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.other.514920195" name="Other optimization flags" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.optimization.other" value="-pipe" valueType="string"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.unused.274376703" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.unused" value="true" valueType="boolean"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.uninitialized.1214281064" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.uninitialized" value="true" valueType="boolean"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.missingdeclaration.150795701" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.missingdeclaration" value="true" valueType="boolean"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.conversion.1632771314" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.conversion" value="true" valueType="boolean"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.pointerarith.2019811343" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.pointerarith" value="true" valueType="boolean"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.shadow.1361698434" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.shadow" value="true" valueType="boolean"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.logicalop.1768588591" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.logicalop" value="true" valueType="boolean"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.agreggatereturn.1073596791" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.agreggatereturn" value="true" valueType="boolean"/>
-							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.floatequal.1093605420" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.floatequal" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.unused.274376703" name="Warn on various unused elements (-Wunused)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.unused" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.uninitialized.1214281064" name="Warn on uninitialized variables (-Wuninitialised)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.uninitialized" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.missingdeclaration.150795701" name="Warn on undeclared global function (-Wmissing-declaration)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.missingdeclaration" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.conversion.1632771314" name="Warn on implicit conversions (-Wconversion)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.conversion" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.pointerarith.2019811343" name="Warn if pointer arithmetic (-Wpointer-arith)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.pointerarith" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.shadow.1361698434" name="Warn if shadowed variable (-Wshadow)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.shadow" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.logicalop.1768588591" name="Warn if suspicious logical ops (-Wlogical-op)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.logicalop" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.agreggatereturn.1073596791" name="Warn if struct is returned (-Wagreggate-return)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.agreggatereturn" value="true" valueType="boolean"/>
+							<option id="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.floatequal.1093605420" name="Warn if floats are compared as equal (-Wfloat-equal)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.warnings.floatequal" value="true" valueType="boolean"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform.1387014296" isAbstract="false" osList="all" superClass="ilg.gnuarmeclipse.managedbuild.cross.targetPlatform"/>
 							<builder buildPath="${workspace_loc:/f4discovery-blinky-mos}/Release" id="ilg.gnuarmeclipse.managedbuild.cross.builder.793889860" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="ilg.gnuarmeclipse.managedbuild.cross.builder"/>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler.1589848060" name="Cross ARM GNU Assembler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.assembler">
@@ -291,8 +291,8 @@
 									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/arm-cmsis/include/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-cortexm/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii-cortexm/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-cmsis/include/stm32f407xx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-hal/include}&quot;"/>
 								</option>
@@ -308,8 +308,8 @@
 									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/arm-cmsis/include/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-cortexm/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii-cortexm/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-cmsis/include/stm32f407xx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-hal/include}&quot;"/>
 								</option>
@@ -318,9 +318,9 @@
 									<listOptionValue builtIn="false" value="OS_USE_SEMIHOSTING_SYSCALLS"/>
 									<listOptionValue builtIn="false" value="NDEBUG"/>
 								</option>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.missingprototypes.1475528593" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.missingprototypes" value="true" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.strictprototypes.1635632041" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.strictprototypes" value="true" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.badfunctioncast.553101691" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.badfunctioncast" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.missingprototypes.1475528593" name="Warn if a global function has no prototype (-Wmissing-prototypes)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.missingprototypes" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.strictprototypes.1635632041" name="Warn if a function has no arg type (-Wstrict-prototypes)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.strictprototypes" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.badfunctioncast.553101691" name="Warn if wrong cast  (-Wbad-function-cast)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.c.compiler.warning.badfunctioncast" useByScannerDiscovery="true" value="true" valueType="boolean"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input.1612768440" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.compiler.input"/>
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.1065724230" name="Cross ARM C++ Compiler" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler">
@@ -328,8 +328,8 @@
 									<listOptionValue builtIn="false" value="&quot;../include&quot;"/>
 									<listOptionValue builtIn="false" value="../cube-mx/Inc"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/arm-cmsis/include/core}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus/include}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-cortexm/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii/include}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/micro-os-plus-iii-cortexm/include}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-cmsis/include/stm32f407xx}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/f4discovery-blinky-micro-os-plus/generated/stm32f4-hal/include}&quot;"/>
 								</option>
@@ -343,12 +343,12 @@
 									<listOptionValue builtIn="false" value="NDEBUG"/>
 								</option>
 								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.std.1066374296" name="Language standard" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.std" useByScannerDiscovery="true" value="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.std.gnucpp1y" valueType="enumerated"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warnabi.1983942654" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warnabi" value="true" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.ctordtorprivacy.1469771067" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.ctordtorprivacy" value="true" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.noexcept.2098394048" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.noexcept" value="true" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.nonvirtualdtor.2047865596" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.nonvirtualdtor" value="true" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.strictnullsentinel.538317571" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.strictnullsentinel" value="true" valueType="boolean"/>
-								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.signpromo.72267493" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.signpromo" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warnabi.1983942654" name="Warn on ABI violations (-Wabi)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warnabi" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.ctordtorprivacy.1469771067" name="Warn on class privacy (-Wctor-dtor-privacy)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.ctordtorprivacy" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.noexcept.2098394048" name="Warn on no-except expressions (-Wnoexcept)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.noexcept" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.nonvirtualdtor.2047865596" name="Warn on virtual destructors (-Wnon-virtual-dtor)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.nonvirtualdtor" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.strictnullsentinel.538317571" name="Warn on uncast NULL (-Wstrict-null-sentinel)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.strictnullsentinel" useByScannerDiscovery="true" value="true" valueType="boolean"/>
+								<option id="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.signpromo.72267493" name="Warn on sign promotion (-Wsign-promo)" superClass="ilg.gnuarmeclipse.managedbuild.cross.option.cpp.compiler.warning.signpromo" useByScannerDiscovery="true" value="true" valueType="boolean"/>
 								<inputType id="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input.851832653" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.cpp.compiler.input"/>
 							</tool>
 							<tool id="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker.831961795" name="Cross ARM C Linker" superClass="ilg.gnuarmeclipse.managedbuild.cross.tool.c.linker">
@@ -443,8 +443,8 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="cube-mx/Src"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus-cortexm/src"/>
-						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus/src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus-iii-cortexm/src"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/micro-os-plus-iii/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32f4-cmsis/src/stm32f407xx"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="generated/stm32f4-hal/src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="src"/>

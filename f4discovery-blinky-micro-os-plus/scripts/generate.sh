@@ -54,11 +54,11 @@ do_create_dest
 # Add the 'arm-cmsis' xPack.
 do_add_arm_cmsis_xpack
 
-# Add the 'cmsis-plus' xPack.
-do_add_cmsis_plus_xpack
-
 # Add the 'micro-os-plus-iii' xPack.
 do_add_micro_os_plus_iii_xpack
+
+# Add the 'micro-os-plus-iii-cortexm' xPack.
+do_add_micro_os_plus_iii_cortexm_xpack
 
 # Add the 'stm32f4-cmsis' xPack.
 do_add_stm32_cmsis_xpack "stm32f407xx"

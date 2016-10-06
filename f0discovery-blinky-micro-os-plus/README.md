@@ -25,8 +25,8 @@ bash scripts/generate.sh
 - `include`
 - `cube-mx/Inc`
 - `generated/arm-cmsis/include/core`
-- `generated/micro-os-plus/include`
-- `generated/micro-os-plus-cortexm/include`
+- `generated/micro-os-plus-iii/include`
+- `generated/micro-os-plus-iii-cortexm/include`
 - `generated/stm32f0-cmsis/include/stm32f051x8`
 - `generated/stm32f0-hal/include`
 
@@ -34,8 +34,8 @@ bash scripts/generate.sh
 
 - `src`
 - `cube-mx/Src`
-- `generated/micro-os-plus/src`
-- `generated/micro-os-plus-cortexm/src`
+- `generated/micro-os-plus-iii/src`
+- `generated/micro-os-plus-iii-cortexm/src`
 - `generated/stm32f0-cmsis/src/stm32f051x8`
 - `generated/stm32f0-hal/src`
 
