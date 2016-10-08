@@ -23,20 +23,20 @@ bash scripts/generate.sh
 
 - `include`
 - `cube-mx/Inc`
-- `generated/arm-cmsis/include/core`
+- `generated/arm-cmsis/core/include`
 - `generated/micro-os-plus-iii/include`
 - `generated/micro-os-plus-iii-cortexm/include`
-- `generated/stm32f4-cmsis/include/stm32f407xx`
+- `generated/stm32f4-cmsis/stm32f407xx/include`
 - `generated/stm32f4-hal/include`
 
 ### Source folders
 
-- `src`
 - `cube-mx/Src`
-- `generated/micro-os-plus-iii/src`
 - `generated/micro-os-plus-iii-cortexm/src`
-- `generated/stm32f4-cmsis/src/stm32f407xx`
+- `generated/micro-os-plus-iii/src`
+- `generated/stm32f4-cmsis/stm32f407xx/src`
 - `generated/stm32f4-hal/src`
+- `src`
 
 ### Compile options
 

@@ -33,12 +33,12 @@ bash scripts/generate.sh
 
 ### Source folders
 
-- `src`
 - `cube-mx/Src`
-- `generated/micro-os-plus-iii/src`
 - `generated/micro-os-plus-iii-cortexm/src`
+- `generated/micro-os-plus-iii/src`
 - `generated/stm32f7-cmsis/src/stm32f051x8`
 - `generated/stm32f7-hal/src`
+- `src`
 
 ### Compile options
 
