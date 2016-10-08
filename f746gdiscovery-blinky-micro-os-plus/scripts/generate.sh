@@ -46,6 +46,13 @@ do_process_args $@
 # Print greeting.
 do_greet
 
+# Check dependencies; clone if not found.
+do_install_xpack "arm-cmsis" "ilg" "https://github.com/xpacks/arm-cmsis.git"
+do_install_xpack "micro-os-plus-iii" "ilg" "https://github.com/micro-os-plus/micro-os-plus-iii.git"
+do_install_xpack "micro-os-plus-iii-cortexm" "ilg" "https://github.com/micro-os-plus/micro-os-plus-iii-cortexm.git"
+do_install_xpack "stm32f7-cmsis" "ilg" "https://github.com/xpacks/stm32f7-cmsis.git"
+do_install_xpack "stm32f7-hal" "ilg" "https://github.com/xpacks/stm32f7-hal.git"
+
 # Test if xPacks repo is present and load if not.
 do_load_repo
 
