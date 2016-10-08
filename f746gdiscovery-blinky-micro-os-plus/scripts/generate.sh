@@ -13,7 +13,8 @@ xpacks_repo_folder="${XPACKS_REPO_FOLDER:-$HOME/.xpacks}"
 
 # -----------------------------------------------------------------------------
 
-if [[ ! -d "$xpacks_repo_folder" ]]
+# Check if the helper is present.
+if [[ ! -f "$xpacks_repo_folder/ilg/scripts.git/xpacks-helper.sh" ]]
 then
   mkdir -p ~/Downloads
   echo "Downloading bootstrap.sh..."
