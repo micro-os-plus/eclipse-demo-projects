@@ -12,14 +12,13 @@ Recreate the content of the `generated` folder.
 
 Note: be sure Eclipse is closed while running this script.
 
-
 ```
 $ bash scripts/generate.sh
 ```
 
 The resulting folder is marked as read/only.
 
-To generate a read/write foldder, use `--read-write`
+To generate a read/write folder, use `--read-write`
 
 ```
 $ bash scripts/generate.sh --read-write

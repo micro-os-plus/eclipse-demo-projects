@@ -36,7 +36,7 @@ To use any of these projects, you need to:
 ```
 $ git clone https://github.com/micro-os-plus/eclipse-demo-projects.git eclipse-demo-projects.git
 ```
-* in each project, generate the code required to satisfy the dependencies; on macOS, double click the `scripts/generate.mac.command` in Finder; on other platforms, go to the project folder and run 
+* in each project, generate the code required to satisfy the dependencies; on macOS, double click the `scripts/generate.mac.command` in Finder; on other platforms, go to the project folder and run the `generate.sh` script
 ```
 $ bash scripts/generate.sh
 ```
@@ -46,13 +46,13 @@ $ bash scripts/generate.sh
 
 ## Keep xPacks up-to-date
 
-To update the content of the xPacks to the latest versions, in a terminal window, start the `update-xpacks-repo.sh` Bash script:
+To update the content of the xPacks to the latest versions, in a terminal window, start the `xpacks-update-repo.sh` Bash script:
 
 ```
-$ bash ~/.xpacks/ilg/scripts.git/update-xpacks-repo.sh
+$ bash ~/.xpacks/ilg/scripts.git/xpacks-update-repo.sh
 ```
 
-On Mac you can double click the `update-xpacks-repo.mac.command` in Finder.
+On Mac you can double click the `xpacks-update-repo.mac.command` in Finder.
 
 After updating xPacks, run the `generate.sh` script in each project, to update the project dependencies.
 
