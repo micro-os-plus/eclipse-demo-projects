@@ -22,19 +22,33 @@ Dependencies supplied by xPacks and CubeMX.
 
 ## Prerequisites
 
-These projects have several dependencies to code available from xPacks. To satisfy these dependencies it is necessary to run some shell scripts.
+These projects have several dependencies to code available from xPacks. To satisfy these dependencies it is necessary to run the `generate.sh` shell scripts.
 
-These scripts were created on macOS, and the ones suffixed with `.command` are specific to macOS; the `.sh` scripts should also be fine on GNU/Linux, Windows MSYS2, Git Shell, and on the new [Windows Subsystem for Linux](https://msdn.microsoft.com/commandline/wsl/about).
+### macOS
 
-For those who insist on native Windows, separate PowerShell scripts would be required, but considering Microsoft's move towards Linux, this would probably not be worth the effort. Anyway, if you manage to create them, please consider improving your karma and contribute them back to the community.
+All scripts were created on macOS, and the ones suffixed with `.command` are specific to macOS.
 
-## Prerequisites
+As usual for development machines, the _Apple Xcode Command Line Tools_ must be installed.
+
+### GNU/Linux
+
+The scripts were also tested on several GNU/Linux distributions, and should be fine.
 
 On Ubuntu be sure you have `git` and `curl` available:
 
 ```
 suso apt-get git curl
 ```
+
+For other distributions, similar commands must be issued.
+
+### Windows
+
+The scripts were also tested on Windows **MSYS2**, **Git Shell**, and on the new [Windows Subsystem for Linux](https://msdn.microsoft.com/commandline/wsl/about).
+
+The only difference is the lack of symbolic links, so `--symlink` should not be used and instead `--link` is fully functional, but the `generate.sh` script should be executed after updating the git repositories in `/.xpacks`.
+
+For those who insist on native Windows, separate PowerShell scripts would be required, but considering Microsoft's move towards Linux, this would probably not be worth the effort. Anyway, if you manage to create them, please consider improving your karma and contribute them back to the community.
 
 ## How to use
 
