@@ -52,6 +52,7 @@ do_greet
 do_install_xpack "arm-cmsis" "ilg" "https://github.com/xpacks/arm-cmsis.git"
 do_install_xpack "micro-os-plus-iii" "ilg" "https://github.com/micro-os-plus/micro-os-plus-iii.git"
 do_install_xpack "micro-os-plus-iii-cortexm" "ilg" "https://github.com/micro-os-plus/micro-os-plus-iii-cortexm.git"
+do_install_xpack "stm" "ilg" "https://github.com/xpacks/stm.git"
 do_install_xpack "stm32f4-cmsis" "ilg" "https://github.com/xpacks/stm32f4-cmsis.git"
 do_install_xpack "stm32f4-hal" "ilg" "https://github.com/xpacks/stm32f4-hal.git"
 
