@@ -30,7 +30,7 @@ For those who insist on native Windows, separate PowerShell scripts would be req
 
 ## Prerequisites
 
-On Ubuntu be sure you have git and curl available:
+On Ubuntu be sure you have `git` and `curl` available:
 
 ```
 suso apt-get git curl
