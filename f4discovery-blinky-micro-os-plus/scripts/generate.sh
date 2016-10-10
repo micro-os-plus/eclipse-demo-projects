@@ -55,6 +55,9 @@ do_install_xpack "micro-os-plus-iii-cortexm" "ilg" "https://github.com/micro-os-
 do_install_xpack "stm32f4-cmsis" "ilg" "https://github.com/xpacks/stm32f4-cmsis.git"
 do_install_xpack "stm32f4-hal" "ilg" "https://github.com/xpacks/stm32f4-hal.git"
 
+# Consider more scripts from the included packages.
+do_source_distributes_scripts
+
 # Recreate the destination folder.
 do_remove_dest
 do_create_dest

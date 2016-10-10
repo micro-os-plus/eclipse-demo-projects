@@ -52,8 +52,8 @@ do_install_xpack "arm-cmsis" "ilg" "https://github.com/xpacks/arm-cmsis.git"
 do_install_xpack "micro-os-plus-iii" "ilg" "https://github.com/micro-os-plus/micro-os-plus-iii.git"
 do_install_xpack "micro-os-plus-iii-cortexm" "ilg" "https://github.com/micro-os-plus/micro-os-plus-iii-cortexm.git"
 
-# Test if xPacks repo is present and load if not.
-do_load_repo
+# Consider more scripts from the included packages.
+do_source_distributes_scripts
 
 # Recreate the destination folder.
 do_remove_dest

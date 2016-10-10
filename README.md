@@ -28,6 +28,14 @@ These scripts were created on macOS, and the ones suffixed with `.command` are s
 
 For those who insist on native Windows, separate PowerShell scripts would be required, but considering Microsoft's move towards Linux, this would probably not be worth the effort. Anyway, if you manage to create them, please consider improving your karma and contribute them back to the community.
 
+## Prerequisites
+
+On Ubuntu be sure you have git and curl available:
+
+```
+suso apt-get git curl
+```
+
 ## How to use
 
 To use any of these projects, you need to:
