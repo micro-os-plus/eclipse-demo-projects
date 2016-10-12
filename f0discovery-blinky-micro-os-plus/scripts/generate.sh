@@ -53,9 +53,6 @@ do_install_xpack "micro-os-plus-iii" "ilg" "https://github.com/micro-os-plus/mic
 do_install_xpack "micro-os-plus-iii-cortexm" "ilg" "https://github.com/micro-os-plus/micro-os-plus-iii-cortexm.git"
 do_install_xpack "stm" "ilg" "https://github.com/xpacks/stm.git"
 
-# Consider more scripts from the included packages.
-do_source_distributes_scripts
-
 # Recreate the destination folder.
 do_remove_dest
 do_create_dest
