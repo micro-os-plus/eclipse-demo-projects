@@ -3,7 +3,7 @@
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.disableGraphics" value="false"/>
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.doContinue" value="true"/>
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.doDebugInRam" value="false"/>
-<booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.doFirstReset" value="false"/>
+<booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.doFirstReset" value="true"/>
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.doGdbServerAllocateConsole" value="true"/>
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.doSecondReset" value="true"/>
 <booleanAttribute key="ilg.gnuarmeclipse.debug.gdbjtag.qemu.doStartGdbServer" value="true"/>
