@@ -19,6 +19,32 @@ The content of the xPacks is not part of the repository, and must be dynamically
 bash scripts/generate.sh
 ```
 
+Caution: Be sure subsequent runs of `generate.sh` are done when the Eclipse project is not opened.
+
+## Prerequisites
+
+### GCC 5.x
+
+µOS++ IIIe uses several C++14 features, available from GCC 5.x up. To be able to build the project, be sure the `arm-none-eabi-gcc` from [Launchpad](http://launchpad.net/gcc-arm-embedded) is installed; for more details, please follow the [How to install the ARM toolchain?](http://gnuarmeclipse.github.io/toolchain/install/) instructions from the GNU ARM Eclipse web.
+
+## Import the project in Eclipse
+
+This project is an Eclipse managed project. To build it, import it to Eclipse:
+
+- General → Existing Project into Workspace
+- Select root directory
+- be sure Copy projects into workspace is **disabled**
+- select the `f746gdiscovery-blinky-micro-os-plus` project
+- import
+
+Caution: Be sure the the project is imported **after** the system code was generated, and subsequent runs of `generate.sh` are done when the Eclipse project is not opened.
+
+## Build
+
+- Eclipse menu → Project → Build All
+
+The result are two executables, one Debug and one Release.
+
 ## Build details
 
 ### Include folders
