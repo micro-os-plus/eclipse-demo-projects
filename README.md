@@ -66,6 +66,12 @@ $ bash scripts/generate.sh
 * build
 * test the f4discovery-blinky-micro-os-plus on QEMU, it should blink the LEDs
 
+For more details, please refer to the project specific README files:
+
+* [f0discovery-blinky-micro-os-plus/README](f0discovery-blinky-micro-os-plus/README.md)
+* [f4discovery-blinky-micro-os-plus/README](f4discovery-blinky-micro-os-plus/README.md)
+* [f746gdiscovery-blinky-micro-os-plus/README](f746gdiscovery-blinky-micro-os-plus/README.md)
+
 ## Keep xPacks up-to-date
 
 To update the content of the xPacks to the latest versions, in a terminal window, start the `xpacks-update-repo.sh` Bash script:
