@@ -41,9 +41,13 @@ Caution: Be sure the the project is imported **after** the system code was gener
 
 ## Build
 
+As for any Eclipse CDT managed project, Eclipse automatically creates the Makefiles needed to build the project. 
+
+The procedure to perform the build is simple:
+
 - Eclipse menu → Project → Build All
 
-The result are two executables, one Debug and one Release.
+The result of this command are two folders, one Debug and one Release, each with all build related files, the most important ones being the ELF files.
 
 ## Build details
 
