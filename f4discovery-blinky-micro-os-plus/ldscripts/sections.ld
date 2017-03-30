@@ -66,7 +66,9 @@ SECTIONS
         KEEP(*(.isr_vector))     	/* Interrupt vectors */
         
 		KEEP(*(.cfmconfig))			/* Freescale configuration words */   
-		     
+
+		KEEP(*(.drtm)) /* Dynamic Run Time Metadata */   
+		
         /* 
          * This section is here for convenience, to store the
          * startup code at the beginning of the flash area, hoping that
