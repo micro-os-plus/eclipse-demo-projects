@@ -44,6 +44,7 @@
 
 #define OS_INTEGER_RTOS_MAIN_STACK_SIZE_BYTES               (3000)
 
+//#define OS_BOOL_RTOS_PORT_CONTEXT_CREATE_ZERO_LR
 
 #if defined(OS_USE_TRACE_SEGGER_RTT)
 #define OS_EXCLUDE_RTOS_IDLE_SLEEP (1)
@@ -83,6 +84,8 @@
 
 #define OS_TRACE_RTOS_THREAD
 #define OS_TRACE_RTOS_RTC_TICK
+
+#define OS_INCLUDE_RTOS_DRTM
 
 // ----------------------------------------------------------------------------
 
