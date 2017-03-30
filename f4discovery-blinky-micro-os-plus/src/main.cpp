@@ -26,7 +26,6 @@
  */
 
 // ----------------------------------------------------------------------------
-
 #include <cmsis-plus/rtos/os.h>
 
 #include <led.h>
@@ -80,7 +79,7 @@ namespace
 
 led blink_leds[1] =
   {
-    { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER, BLINK_ACTIVE_LOW },
+      { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER, BLINK_ACTIVE_LOW},
   };
 
 #elif defined(STM32F407xx)
@@ -100,6 +99,7 @@ led blink_leds[4] =
     { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER_ORANGE, BLINK_ACTIVE_LOW },
     { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER_RED, BLINK_ACTIVE_LOW },
     { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER_BLUE, BLINK_ACTIVE_LOW },
+  /**/
   };
 
 #elif defined(STM32F411xE)
@@ -112,7 +112,7 @@ led blink_leds[4] =
 
 led blink_leds[1] =
   {
-    { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER, BLINK_ACTIVE_LOW },
+      { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER, BLINK_ACTIVE_LOW},
   };
 
 #elif defined(STM32F429xx)
@@ -126,8 +126,8 @@ led blink_leds[1] =
 
 led blink_leds[2] =
   {
-    { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER_GREEN, BLINK_ACTIVE_LOW },
-    { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER_RED, BLINK_ACTIVE_LOW },
+      { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER_GREEN, BLINK_ACTIVE_LOW},
+      { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER_RED, BLINK_ACTIVE_LOW},
   };
 
 #else
@@ -140,7 +140,7 @@ led blink_leds[2] =
 
 led blink_leds[1] =
   {
-    { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER, BLINK_ACTIVE_LOW },
+      { BLINK_PORT_NUMBER, BLINK_PIN_NUMBER, BLINK_ACTIVE_LOW},
   };
 
 #endif
@@ -155,20 +155,20 @@ led blink_leds[1] =
 #pragma GCC diagnostic ignored "-Wreturn-type"
 
 int
-os_main(int argc, char* argv[])
+os_main (int argc, char* argv[])
 {
   // Send a greeting to the trace device (skipped on Release).
-  trace_puts("Hello ARM World!");
+  trace_puts ("Hello ARM World!");
 
   // Send a message to the standard output.
-  puts("Standard output message.");
+  puts ("Standard output message.");
 
   // Send a message to the standard error.
-  fprintf(stderr, "Standard error message.\n");
+  fprintf (stderr, "Standard error message.\n");
 
   // At this stage the system clock should have already been configured
   // at high speed.
-  trace_printf("System clock: %u Hz\n", SystemCoreClock);
+  trace_printf ("System clock: %u Hz\n", SystemCoreClock);
 
   // Perform all necessary initialisations for the LEDs.
   for (size_t i = 0; i < (sizeof(blink_leds) / sizeof(blink_leds[0])); ++i)
@@ -198,7 +198,7 @@ os_main(int argc, char* argv[])
     }
 
   // First second is long.
-  sysclock.sleep_for(sysclock.frequency_hz);
+  sysclock.sleep_for (sysclock.frequency_hz);
 
   for (size_t i = 0; i < (sizeof(blink_leds) / sizeof(blink_leds[0])); ++i)
     {
@@ -206,6 +206,17 @@ os_main(int argc, char* argv[])
     }
 
   sysclock.sleep_for (BLINK_OFF_TICKS);
+
+#if defined (__ARM_FP)
+  float f1 = 1.1f;
+  float f2 = 10.0f;
+  for (int i = 0; i < 3; ++i)
+    {
+      f2 *= f1;
+      clock::duration_t d = (clock::duration_t) (f2);
+      sysclock.sleep_for (d);
+    }
+#endif
 
   ++seconds;
   trace_printf ("Second %u\n", seconds);
@@ -216,7 +227,7 @@ os_main(int argc, char* argv[])
       for (size_t i = 0; i < (sizeof(blink_leds) / sizeof(blink_leds[0])); ++i)
         {
           blink_leds[i].turn_on ();
-          sysclock.sleep_for(BLINK_ON_TICKS);
+          sysclock.sleep_for (BLINK_ON_TICKS);
 
           blink_leds[i].turn_off ();
           sysclock.sleep_for (BLINK_OFF_TICKS);
